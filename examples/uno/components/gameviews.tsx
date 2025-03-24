@@ -75,6 +75,71 @@ function ColorPicker(
   );
 }
 
+function PlayersList({ 
+  players, 
+  currentPlayer, 
+  playerWithOneCard = null, 
+  unoHasBeenCalled = false 
+}: { 
+  players: { name: string; cardCount: number; isVictor: boolean }[];
+  currentPlayer: number;
+  playerWithOneCard?: number | null;
+  unoHasBeenCalled?: boolean;
+}) {
+  return (
+    <div class="mb-4">
+      <div class="flex justify-center items-center space-x-8">
+        {players.map((player, index) => (
+          <div
+            key={index}
+            class={`p-2 rounded-lg ${
+              player.isVictor
+                ? "bg-green-100"
+                : index === currentPlayer
+                ? "bg-yellow-100"
+                : ""
+            }`}
+          >
+            <div class="font-bold">{player.name}</div>
+            <div>{player.cardCount} cards</div>
+            {player.isVictor && (
+              <div class="font-bold text-green-600">Winner!</div>
+            )}
+            {playerWithOneCard !== null && index === playerWithOneCard && (
+              <>
+                {!unoHasBeenCalled && (
+                  <div class="font-bold text-red-600">Needs to call UNO!</div>
+                )}
+                {unoHasBeenCalled && (
+                  <div class="font-bold text-red-600">UNO!</div>
+                )}
+              </>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function GameBoard({ topCard, drawPileSize }: { topCard: Card; drawPileSize: number }) {
+  return (
+    <div class="flex justify-center items-center mb-6">
+      <div class="text-center mr-4">
+        <div class="bg-gray-200 rounded-lg p-2 mb-1 w-16 h-24 flex items-center justify-center font-bold">
+          {drawPileSize}
+        </div>
+        <div class="text-sm">Draw Pile</div>
+      </div>
+
+      <div class="text-center">
+        <UnoCard card={topCard} selectable={false} />
+        <div class="text-sm">Discard Pile</div>
+      </div>
+    </div>
+  );
+}
+
 export function PlayerView(
   { playerState, perform }: PlayerViewProps<Move, PlayerState>,
 ) {
@@ -112,7 +177,6 @@ export function PlayerView(
         setSelectedCard(playerState.drawnCard);
         setSelectingColor(true);
       } else {
-        console.log("handle", perform);
         perform?.({ type: "play", card: playerState.drawnCard });
       }
     }
@@ -130,42 +194,15 @@ export function PlayerView(
     <div class="p-4">
       <h2 class="text-xl font-bold text-center mb-4">UNO</h2>
 
-      <div class="mb-4">
-        <div class="flex justify-center items-center space-x-8">
-          {playerState.perPlayer.map((player, index) => (
-            <div
-              key={index}
-              class={`p-2 rounded-lg ${
-                player.isVictor
-                  ? "bg-green-100"
-                  : index === playerState.currentPlayer
-                  ? "bg-yellow-100"
-                  : ""
-              }`}
-            >
-              <div class="font-bold">{player.name}</div>
-              <div>{player.cardCount} cards</div>
-              {player.isVictor && (
-                <div class="font-bold text-green-600">Winner!</div>
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
+      <PlayersList
+        players={playerState.perPlayer}
+        currentPlayer={playerState.currentPlayer}
+      />
 
-      <div class="flex justify-center items-center mb-6">
-        <div class="text-center mr-4">
-          <div class="bg-gray-200 rounded-lg p-2 mb-1 w-16 h-24 flex items-center justify-center font-bold">
-            {playerState.drawPileSize}
-          </div>
-          <div class="text-sm">Draw Pile</div>
-        </div>
-
-        <div class="text-center">
-          <UnoCard card={playerState.topCard} selectable={false} />
-          <div class="text-sm">Discard Pile</div>
-        </div>
-      </div>
+      <GameBoard
+        topCard={playerState.topCard}
+        drawPileSize={playerState.drawPileSize}
+      />
 
       {/* Call Uno Button - Only show when any player has exactly one card and uno hasn't been called yet */}
       {playerState.playerWithOneCard !== null &&
@@ -264,50 +301,17 @@ export function ObserverView(
     <div class="p-4">
       <h2 class="text-xl font-bold text-center mb-4">UNO (Observer View)</h2>
 
-      <div class="mb-4">
-        <div class="flex justify-center items-center space-x-8">
-          {observerState.perPlayer.map((player, index) => (
-            <div
-              key={index}
-              class={`p-2 rounded-lg ${
-                player.isVictor
-                  ? "bg-green-100"
-                  : index === observerState.currentPlayer
-                  ? "bg-yellow-100"
-                  : ""
-              }`}
-            >
-              <div class="font-bold">{player.name}</div>
-              <div>{player.cardCount} cards</div>
-              {player.isVictor && (
-                <div class="font-bold text-green-600">Winner!</div>
-              )}
-              {index === observerState.playerWithOneCard &&
-                !observerState.unoHasBeenCalled && (
-                <div class="font-bold text-red-600">Needs to call UNO!</div>
-              )}
-              {index === observerState.playerWithOneCard &&
-                observerState.unoHasBeenCalled && (
-                <div class="font-bold text-red-600">UNO!</div>
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
+      <PlayersList
+        players={observerState.perPlayer}
+        currentPlayer={observerState.currentPlayer}
+        playerWithOneCard={observerState.playerWithOneCard}
+        unoHasBeenCalled={observerState.unoHasBeenCalled}
+      />
 
-      <div class="flex justify-center items-center mb-6">
-        <div class="text-center mr-4">
-          <div class="bg-gray-200 rounded-lg p-2 mb-1 w-16 h-24 flex items-center justify-center font-bold">
-            {observerState.drawPileSize}
-          </div>
-          <div class="text-sm">Draw Pile</div>
-        </div>
-
-        <div class="text-center">
-          <UnoCard card={observerState.topCard} selectable={false} />
-          <div class="text-sm">Discard Pile</div>
-        </div>
-      </div>
+      <GameBoard
+        topCard={observerState.topCard}
+        drawPileSize={observerState.drawPileSize}
+      />
     </div>
   );
 }

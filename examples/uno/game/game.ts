@@ -10,6 +10,7 @@ import type {
   PlayerState,
 } from "./types.ts";
 import { produce } from "npm:immer";
+import { shuffle } from "jsr:@std/random@0.1";
 
 // Create a standard UNO deck
 function createDeck(): Card[] {
@@ -54,15 +55,6 @@ function createDeck(): Card[] {
   }
 
   return deck;
-}
-
-// Shuffle an array in place
-function shuffleArray<T>(array: T[]): T[] {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
 }
 
 // Determine if a card can be played on top of another
@@ -112,9 +104,9 @@ export const game: Game<Config, GameState, Move, PlayerState, ObserverState> = {
     },
   },
 
-  setup({ config, timestamp, players }): Readonly<GameState> {
+  setup({ config, players }): Readonly<GameState> {
     // Create and shuffle the deck
-    const deck = shuffleArray(createDeck());
+    const deck = shuffle(createDeck());
 
     // Deal cards to each player
     const hands: Card[][] = [];
@@ -144,7 +136,6 @@ export const game: Game<Config, GameState, Move, PlayerState, ObserverState> = {
       hands,
       currentPlayer: 0,
       direction: 1,
-      lastMoveTimestamp: timestamp.valueOf(),
       drawPileSize: deck.length,
       mustPlayDrawnCard: false,
       drawnCard: null,
@@ -210,11 +201,9 @@ export const game: Game<Config, GameState, Move, PlayerState, ObserverState> = {
     return false;
   },
 
-  processMove(state, { move, playerId, timestamp }): Readonly<GameState> {
+  processMove(state, { move, playerId }): Readonly<GameState> {
     console.log(move);
     return produce(state, (s) => {
-      s.lastMoveTimestamp = timestamp.valueOf();
-
       if (move.type === "callUno") {
         // Handle callUno move
         if (s.playerWithOneCard !== null && !s.unoHasBeenCalled) {
@@ -227,7 +216,7 @@ export const game: Game<Config, GameState, Move, PlayerState, ObserverState> = {
             for (let i = 0; i < 2; i++) {
               if (s.deck.length === 0) {
                 const topCard = s.discardPile.pop();
-                s.deck = shuffleArray([...s.discardPile]);
+                s.deck = shuffle([...s.discardPile]);
                 s.discardPile = topCard ? [topCard] : [];
               }
               const card = s.deck.pop();
@@ -248,7 +237,7 @@ export const game: Game<Config, GameState, Move, PlayerState, ObserverState> = {
         if (s.deck.length === 0) {
           // If deck is empty, shuffle the discard pile (except top card)
           const topCard = s.discardPile.pop();
-          s.deck = shuffleArray([...s.discardPile]);
+          s.deck = shuffle([...s.discardPile]);
           s.discardPile = topCard ? [topCard] : [];
         }
 
@@ -286,7 +275,7 @@ export const game: Game<Config, GameState, Move, PlayerState, ObserverState> = {
             for (let i = 0; i < 2; i++) {
               if (s.deck.length === 0) {
                 const topCard = s.discardPile.pop();
-                s.deck = shuffleArray([...s.discardPile]);
+                s.deck = shuffle([...s.discardPile]);
                 s.discardPile = topCard ? [topCard] : [];
               }
               const card = s.deck.pop();
@@ -357,7 +346,7 @@ export const game: Game<Config, GameState, Move, PlayerState, ObserverState> = {
             for (let i = 0; i < 2; i++) {
               if (s.deck.length === 0) {
                 const topCard = s.discardPile.pop();
-                s.deck = shuffleArray([...s.discardPile]);
+                s.deck = shuffle([...s.discardPile]);
                 s.discardPile = topCard ? [topCard] : [];
               }
               const card = s.deck.pop();
@@ -374,7 +363,7 @@ export const game: Game<Config, GameState, Move, PlayerState, ObserverState> = {
             for (let i = 0; i < 4; i++) {
               if (s.deck.length === 0) {
                 const topCard = s.discardPile.pop();
-                s.deck = shuffleArray([...s.discardPile]);
+                s.deck = shuffle([...s.discardPile]);
                 s.discardPile = topCard ? [topCard] : [];
               }
               const card = s.deck.pop();

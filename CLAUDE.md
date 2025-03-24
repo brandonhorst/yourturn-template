@@ -12,7 +12,9 @@ running this shell command: `deno doc jsr:@brandonhorst/yourturn/types`. You
 will need to use these types to build the game.
 
 For the `processMove` function and the optional `refresh` function, it is highly
-recommended to use `npm:immer@10` library (as shown in all examples).
+recommended to use `npm:immer@10` library (as shown in all examples). Also, use
+the Deno Standard Library when necessary. `jsr:@std/random@0.1` is particularly
+useful for games.
 
 The UI is built using Preact views styled with inline Tailwind v3 classes. These
 views live in the `components` directory. The root views are `PlayerView` and

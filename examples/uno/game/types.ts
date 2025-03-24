@@ -1,8 +1,20 @@
 export type CardColor = "red" | "green" | "blue" | "yellow" | "wild";
-export type CardValue = 
-  | "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" 
-  | "skip" | "reverse" | "draw2" 
-  | "wild" | "draw4";
+export type CardValue =
+  | "0"
+  | "1"
+  | "2"
+  | "3"
+  | "4"
+  | "5"
+  | "6"
+  | "7"
+  | "8"
+  | "9"
+  | "skip"
+  | "reverse"
+  | "draw2"
+  | "wild"
+  | "draw4";
 
 export type Card = {
   color: CardColor;
@@ -19,7 +31,6 @@ export type GameState = {
   hands: Card[][];
   currentPlayer: number;
   direction: 1 | -1; // 1 for clockwise, -1 for counter-clockwise
-  lastMoveTimestamp: number;
   drawPileSize: number;
   mustPlayDrawnCard: boolean;
   drawnCard: Card | null;
@@ -56,7 +67,7 @@ export type ObserverState = {
   unoHasBeenCalled: boolean;
 };
 
-export type Move = 
+export type Move =
   | { type: "play"; card: Card; chosenColor?: CardColor }
   | { type: "draw" }
   | { type: "pass" }
