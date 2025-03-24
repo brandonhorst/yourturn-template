@@ -1,6 +1,6 @@
 import { useObserveSocket } from "jsr:@brandonhorst/yourturn/hooks";
-import { ObserverState } from "../examples/uno/game/types.ts";
-import { ObserverView } from "../examples/uno/components/gameviews.tsx";
+import { ObserverState } from "../game/types.ts";
+import { ObserverView } from "../components/gameviews.tsx";
 import { ObserverProps } from "jsr:@brandonhorst/yourturn/types";
 
 export default function ObserveIsland(

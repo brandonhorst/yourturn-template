@@ -2,14 +2,14 @@ import {
   initializeServer,
   type Server,
 } from "jsr:@brandonhorst/yourturn/server";
-import { game } from "./examples/uno/game/game.ts";
+import { game } from "./game/game.ts";
 import type {
   Config,
   GameState,
   Move,
   ObserverState,
   PlayerState,
-} from "./examples/uno/game/types.ts";
+} from "./game/types.ts";
 
 let gameServer:
   | Server<Config, GameState, Move, PlayerState, ObserverState>

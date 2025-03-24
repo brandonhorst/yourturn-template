@@ -1,5 +1,5 @@
 import { useLobbySocket } from "jsr:@brandonhorst/yourturn/hooks";
-import { LobbyView } from "../examples/uno/components/lobbyviews.tsx";
+import { LobbyView } from "../components/lobbyviews.tsx";
 import { ActiveGame } from "jsr:@brandonhorst/yourturn/types";
 
 function navigateToGame(gameId: string, sessionId: string) {
