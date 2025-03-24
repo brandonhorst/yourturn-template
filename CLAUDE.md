@@ -54,8 +54,3 @@ If you do need to modify them in order to change the URL structure or something
 like that, you can access the documentation with one of these shell commands:
 `deno doc jsr:@brandonhorst/yourturn/server`,
 `deno doc jsr:@brandonhorst/yourturn/hooks`.
-
-## Other Instructions
-
-- Rewrite `CLAUDE.md` in responses to new pieces of product structure, or with
-  specific information about the game.
