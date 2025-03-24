@@ -1,8 +1,8 @@
 # Claude Assistance Guidelines for yourturn-empty
 
-This is a template that implements an online turn-based game web app using a
-library called yourturn (https://jsr.io/@brandonhorst/yourturn). The web app
-itself is built with Deno Fresh v1 and styled with Tailwind v3.
+This is a template for implementing an online turn-based game web app using a
+library called yourturn (https://jsr.io/@brandonhorst/yourturn). It uses Deno
+Fresh v1 and Tailwind v3 for styling.
 
 ## Implementing Games
 
@@ -10,6 +10,9 @@ Games are built with game logic in the `game` directory, by implementing
 `yourturn` types. Before starting, access the yourturn type documentation by
 running this shell command: `deno doc jsr:@brandonhorst/yourturn/types`. You
 will need to use these types to build the game.
+
+For the `processMove` function and the optional `refresh` function, it is highly
+recommended to use `npm:immer@10` library (as shown in all examples).
 
 The UI is built using Preact views styled with inline Tailwind v3 classes. These
 views live in the `components` directory. The root views are `PlayerView` and
@@ -19,21 +22,22 @@ After creating a game, makes sure to lint/typecheck it and fix errors.
 
 ## Examples
 
-Important: When building a game or example, make use of the provided examples to
-understand how the library should be used. Examples of both the game logic and
-the views live in the `examples` directory. Read the examples you think are most
-appropriate to the game you're building, and examples closely.
+Important: When building a game, use the provided examples to understand how the
+library should be used. Examples of both the game logic and the views live in
+the `examples` directory. Read the examples you think are most appropriate to
+the game you're building, and examples closely.
 
 - `examples/rockpaperscissors` - basic actions, simultaneous gameplay, multiple
   rounds, configuration
 - `examples/gomoku` - board rendering, timer, configuration
+- `examples/uno` - card rendering, out-of-turn play, variable player count,
+  configuration
 
 ## Commands
 
 - Lint/Typecheck: `deno lint`
 - Test: `deno test`
 - Format: `deno fmt`
-- Update dependencies: `deno task update`
 
 ## Project Structure
 
