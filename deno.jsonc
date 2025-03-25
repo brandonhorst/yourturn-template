@@ -21,10 +21,7 @@
     "**/_fresh/*"
   ],
   "imports": {
-    "jsr:@brandonhorst/yourturn/": "jsr:@brandonhorst/yourturn@0.9.3/",
-    // "jsr:@brandonhorst/yourturn/server": "../yourturn/server.ts",
-    // "jsr:@brandonhorst/yourturn/hooks": "../yourturn/hooks.ts",
-    // "jsr:@brandonhorst/yourturn/types": "../yourturn/types.ts",
+    "jsr:@brandonhorst/yourturn/": "jsr:@brandonhorst/yourturn@0.9/",
     "$fresh/": "https://deno.land/x/fresh@1.7.3/",
     "preact": "npm:preact@10",
     "preact/hooks": "npm:preact@10/hooks",
