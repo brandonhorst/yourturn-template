@@ -1,4 +1,4 @@
-import { Game } from "jsr:@brandonhorst/yourturn/types";
+import { Game } from "yourturn/types";
 import type {
   Config,
   GameState,
@@ -7,7 +7,7 @@ import type {
   ObserverState,
   PlayerState,
 } from "./types.ts";
-import { produce } from "npm:immer";
+import { produce } from "immer";
 
 export const game: Game<Config, GameState, Move, PlayerState, ObserverState> = {
   modes: {

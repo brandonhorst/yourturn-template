@@ -15,7 +15,7 @@ export type GameState = {
   board: Board;
   currentPlayer: number;
   timeRemainingMs: [number, number]; // Remaining time in milliseconds for each player
-  lastMoveTimestamp: number; // Timestamp of the last move
+  lastUpdateTimestamp: number; // Timestamp of the last move
 };
 
 type PerPlayerClientState = {

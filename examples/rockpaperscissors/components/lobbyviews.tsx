@@ -1,4 +1,4 @@
-import { LobbyViewProps } from "jsr:@brandonhorst/yourturn/types";
+import { LobbyViewProps } from "yourturn/types";
 import { ComponentChildren } from "preact";
 
 export function Button(

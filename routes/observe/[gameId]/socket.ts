@@ -1,13 +1,13 @@
-import { Handlers } from "$fresh/server.ts";
 import { getGameServer } from "../../../gameserver.ts";
+import { define } from "../../../utils.ts";
 
-export const handler: Handlers = {
-  GET(req, ctx) {
-    const { socket, response } = Deno.upgradeWebSocket(req);
+export const handler = define.handlers({
+  GET(ctx) {
+    const { socket, response } = Deno.upgradeWebSocket(ctx.req);
     const { gameId } = ctx.params;
 
     getGameServer().configureObserveSocket(socket, gameId);
 
     return response;
   },
-};
+});

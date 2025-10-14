@@ -1,8 +1,10 @@
-# Claude Assistance Guidelines for yourturn-empty
+@ -1,58 +0,0 @@
+
+# yourturn-template
 
 This is a template for implementing an online turn-based game web app using a
 library called yourturn (https://jsr.io/@brandonhorst/yourturn). It uses Deno
-Fresh v1 and Tailwind v3 for styling.
+Fresh v2, Preact v10, Tailwind v4, DaisyUI v5.
 
 ## Implementing Games
 
@@ -12,8 +14,8 @@ running this shell command: `deno doc jsr:@brandonhorst/yourturn/types`. You
 will need to use these types to build the game.
 
 For the `processMove` function and the optional `refresh` function, it is highly
-recommended to use `npm:immer@10` library (as shown in all examples). Also, use
-the Deno Standard Library when necessary. `jsr:@std/random@0.1` is particularly
+recommended to use `immer` library (as shown in all examples). Also, use the
+Deno Standard Library when necessary. `jsr:@std/random@0.1` is particularly
 useful for games.
 
 The UI is built using Preact views styled with inline Tailwind v3 classes. These
@@ -32,8 +34,6 @@ the game you're building, and examples closely.
 - `examples/rockpaperscissors` - basic actions, simultaneous gameplay, multiple
   rounds, configuration
 - `examples/gomoku` - board rendering, timer, configuration
-- `examples/uno` - card rendering, out-of-turn play, variable player count,
-  configuration
 
 ## Commands
 

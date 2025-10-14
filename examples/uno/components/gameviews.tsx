@@ -1,7 +1,4 @@
-import {
-  ObserveViewProps,
-  PlayerViewProps,
-} from "jsr:@brandonhorst/yourturn/types";
+import { ObserveViewProps, PlayerViewProps } from "yourturn/types";
 import type {
   Card,
   CardColor,
@@ -11,13 +8,11 @@ import type {
 } from "../game/types.ts";
 import { useState } from "preact/hooks";
 
-function UnoCard(
-  props: {
-    card: Card;
-    onClick?: () => void;
-    selectable?: boolean;
-  },
-) {
+function UnoCard(props: {
+  card: Card;
+  onClick?: () => void;
+  selectable?: boolean;
+}) {
   const { card, onClick, selectable = true } = props;
   const colorClasses = {
     red: "bg-red-500 text-white",
@@ -49,12 +44,16 @@ function UnoCard(
   );
 }
 
-function ColorPicker(
-  props: {
-    onSelectColor: (color: CardColor) => void;
-  },
-) {
+function ColorPicker(props: { onSelectColor: (color: CardColor) => void }) {
   const colors: CardColor[] = ["red", "blue", "green", "yellow"];
+  const colorButtonClasses: Record<CardColor, string> = {
+    red: "bg-red-500",
+    blue: "bg-blue-500",
+    green: "bg-green-500",
+    yellow: "bg-yellow-400",
+    // not used here, but keep key for completeness
+    wild: "bg-gradient-to-br from-red-500 via-blue-500 to-green-500",
+  };
 
   return (
     <div class="flex justify-center items-center my-4">
@@ -65,7 +64,9 @@ function ColorPicker(
             <button
               type="button"
               key={color}
-              class={`w-12 h-12 rounded-full bg-${color}-500 hover:opacity-80`}
+              class={`w-12 h-12 rounded-full ${
+                colorButtonClasses[color]
+              } hover:opacity-80`}
               onClick={() => props.onSelectColor(color)}
             />
           ))}
@@ -75,12 +76,12 @@ function ColorPicker(
   );
 }
 
-function PlayersList({ 
-  players, 
-  currentPlayer, 
-  playerWithOneCard = null, 
-  unoHasBeenCalled = false 
-}: { 
+function PlayersList({
+  players,
+  currentPlayer,
+  playerWithOneCard = null,
+  unoHasBeenCalled = false,
+}: {
   players: { name: string; cardCount: number; isVictor: boolean }[];
   currentPlayer: number;
   playerWithOneCard?: number | null;
@@ -122,7 +123,13 @@ function PlayersList({
   );
 }
 
-function GameBoard({ topCard, drawPileSize }: { topCard: Card; drawPileSize: number }) {
+function GameBoard({
+  topCard,
+  drawPileSize,
+}: {
+  topCard: Card;
+  drawPileSize: number;
+}) {
   return (
     <div class="flex justify-center items-center mb-6">
       <div class="text-center mr-4">
@@ -140,9 +147,10 @@ function GameBoard({ topCard, drawPileSize }: { topCard: Card; drawPileSize: num
   );
 }
 
-export function PlayerView(
-  { playerState, perform }: PlayerViewProps<Move, PlayerState>,
-) {
+export function PlayerView({
+  playerState,
+  perform,
+}: PlayerViewProps<Move, PlayerState>) {
   const [selectingColor, setSelectingColor] = useState(false);
   const [selectedCard, setSelectedCard] = useState<Card | null>(null);
 
@@ -294,9 +302,9 @@ export function PlayerView(
   );
 }
 
-export function ObserverView(
-  { observerState }: ObserveViewProps<ObserverState>,
-) {
+export function ObserverView({
+  observerState,
+}: ObserveViewProps<ObserverState>) {
   return (
     <div class="p-4">
       <h2 class="text-xl font-bold text-center mb-4">UNO (Observer View)</h2>

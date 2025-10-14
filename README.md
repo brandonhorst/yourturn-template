@@ -1,15 +1,18 @@
-# yourturn-template
+# yourturn-empty
 
-A template repo for quickly building games with
-[yourturn](https://github.com/brandonhorst/yourturn).
+Template repo for creating turn-based games with
+[`yourturn`](https://github.com/brandonhorst/yourturn).
 
-## Instructions
+Clone the repo, then spin up for development with
 
-- Create a new repo using this as a template.
-- `deno task start` to start up an automatically-reloading local server.
-- Implement your game following the yourturn docs, following the examples
-  provided in the `examples` directory.
-- Recommendation: Install
-  [Claude Code](https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/overview)
-  and kick the process off with some fun vibe coding.
-- When you're ready, publish to [Deno Deploy](https://deno.com/deploy) for free.
+```sh
+deno task build
+deno task start
+```
+
+Games can easily be deployed to Deno Deploy.
+
+## Development
+
+This repo is optimized for AI-assisted development. A basic `AGENTS.md` is
+provided, and high-quality examples are provided in the `examples` directory.

@@ -1,15 +1,10 @@
-import { Handlers, PageProps } from "$fresh/server.ts";
 import LobbyIsland from "../../islands/Lobby.tsx";
 import { getGameServer } from "../../gameserver.ts";
+import { define } from "../../utils.ts";
 
-export const handler: Handlers = {
-  async GET(_req, ctx) {
-    const initialActiveGames = await getGameServer()
-      .getInitialActiveGames();
-    return ctx.render(initialActiveGames);
-  },
-};
+export default define.page(async function Home() {
+  const initialActiveGames = await getGameServer()
+    .getInitialActiveGames();
 
-export default function Home(props: PageProps) {
-  return <LobbyIsland initialActiveGames={props.data} />;
-}
+  return <LobbyIsland initialActiveGames={initialActiveGames} />;
+});

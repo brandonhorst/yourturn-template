@@ -1,5 +1,5 @@
 import { ComponentChildren } from "preact";
-import { LobbyViewProps } from "jsr:@brandonhorst/yourturn/types";
+import { LobbyViewProps } from "yourturn/types";
 
 export default function Button(
   props: {
@@ -10,7 +10,7 @@ export default function Button(
   return (
     <button
       type="button"
-      class="flex-grow bg-blue-200 hover:bg-blue-300 active:bg-blue-400 focus:ring-4 focus:ring-blue-300  rounded px-5 py-2.5 focus:outline-none"
+      class="btn"
       onClick={props.onClick}
     >
       {props.children}

@@ -1,7 +1,4 @@
-import {
-  initializeServer,
-  type Server,
-} from "jsr:@brandonhorst/yourturn/server";
+import { initializeServer, type Server } from "yourturn/server";
 import { game } from "./game/game.ts";
 import type {
   Config,

@@ -1,7 +1,7 @@
-import { usePlaySocket } from "jsr:@brandonhorst/yourturn/hooks";
+import { usePlaySocket } from "yourturn/hooks";
 import { PlayerState } from "../game/types.ts";
 import { PlayerView } from "../components/gameviews.tsx";
-import { PlayerProps } from "jsr:@brandonhorst/yourturn/types";
+import { PlayerProps } from "yourturn/types";
 
 export default function PlayIsland(
   props: {

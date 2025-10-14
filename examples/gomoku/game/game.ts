@@ -1,4 +1,4 @@
-import { Game } from "jsr:@brandonhorst/yourturn/types";
+import { Game } from "yourturn/types";
 import type {
   Board,
   CellValue,
@@ -8,7 +8,7 @@ import type {
   ObserverState,
   PlayerState,
 } from "./types.ts";
-import { produce } from "npm:immer";
+import { produce } from "immer";
 
 // Calculate current time remaining, accounting for elapsed time since last move
 function calculateTimeRemaining(
@@ -22,7 +22,7 @@ function calculateTimeRemaining(
 
   if (!isComplete) {
     const currentPlayerIdx = state.currentPlayer;
-    const elapsedMs = timestamp.valueOf() - state.lastMoveTimestamp;
+    const elapsedMs = timestamp.valueOf() - state.lastUpdateTimestamp;
     calculatedTimeRemainingMs[currentPlayerIdx] = Math.max(
       0,
       state.timeRemainingMs[currentPlayerIdx] - elapsedMs,
@@ -33,10 +33,10 @@ function calculateTimeRemaining(
 }
 
 function updateTimestamp(s: GameState, playerId: number, timestamp: Date) {
-  const elapsedMs = timestamp.valueOf() - s.lastMoveTimestamp;
+  const elapsedMs = timestamp.valueOf() - s.lastUpdateTimestamp;
   s.timeRemainingMs[playerId] -= elapsedMs;
 
-  s.lastMoveTimestamp = timestamp.valueOf();
+  s.lastUpdateTimestamp = timestamp.valueOf();
 }
 
 export const game: Game<Config, GameState, Move, PlayerState, ObserverState> = {
@@ -72,7 +72,7 @@ export const game: Game<Config, GameState, Move, PlayerState, ObserverState> = {
       board,
       currentPlayer: 0, // Player 0 starts (black)
       timeRemainingMs: [initialTimeMs, initialTimeMs], // 10 minutes for each player
-      lastMoveTimestamp: timestamp.valueOf(), // Will be set when the first move is made
+      lastUpdateTimestamp: timestamp.valueOf(), // Will be set when the first move is made
     };
   },
 
@@ -111,6 +111,13 @@ export const game: Game<Config, GameState, Move, PlayerState, ObserverState> = {
 
   refreshTimeout(s): number | undefined {
     return s.timeRemainingMs[s.currentPlayer];
+  },
+
+  refresh(s, { timestamp }): Readonly<GameState> {
+    return produce(s, (s) => {
+      // Update the player's remaining time
+      updateTimestamp(s, s.currentPlayer, timestamp);
+    });
   },
 
   playerState(

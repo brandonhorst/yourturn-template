@@ -1,7 +1,4 @@
-import {
-  ObserveViewProps,
-  PlayerViewProps,
-} from "jsr:@brandonhorst/yourturn/types";
+import { ObserveViewProps, PlayerViewProps } from "yourturn/types";
 import type { Move, ObserverState, PlayerState } from "../game/types.ts";
 
 export function PlayerView(

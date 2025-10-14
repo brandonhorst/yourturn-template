@@ -1,6 +1,10 @@
-export function handler(_req: Request): Response {
-  return new Response("", {
-    status: 307,
-    headers: { Location: "/lobby" },
-  });
-}
+import { define } from "../utils.ts";
+
+export const handler = define.handlers({
+  GET() {
+    return new Response("", {
+      status: 307,
+      headers: { Location: "/lobby" },
+    });
+  },
+});
