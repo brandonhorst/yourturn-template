@@ -2,10 +2,14 @@
   "nodeModulesDir": "auto",
   "tasks": {
     "check": "deno fmt --check . && deno lint . && deno check",
-    "dev": "vite",
     "build": "vite build",
     "start": "deno serve -A _fresh/server.js",
-    "update": "deno run -A -r jsr:@fresh/update ."
+    "update": "deno run -A -r jsr:@fresh/update .",
+    "dev:vite": "vite --clearScreen false",
+    "dev": {
+      "command": "deno task dev:vite & deno task start",
+      "dependencies": ["build"]
+    }
   },
   "lint": { "rules": { "tags": ["fresh", "recommended"] } },
   "exclude": ["**/_fresh/*"],
@@ -21,7 +25,7 @@
     "@tailwindcss/vite": "npm:@tailwindcss/vite@^4.1.12",
     "yourturn": "jsr:@brandonhorst/yourturn@0.9",
     "immer": "npm:immer@10",
-    "jsr:@preact-icons/fa6": "jsr:@preact-icons/fa6@1"
+    "@preact-icons/fa6": "jsr:@preact-icons/fa6@1"
   },
   "compilerOptions": {
     "lib": ["dom", "dom.asynciterable", "dom.iterable", "deno.ns"],
