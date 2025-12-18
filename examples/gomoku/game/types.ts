@@ -41,3 +41,5 @@ export type ObserverState = {
 };
 
 export type Move = Position;
+
+export type PlayerId = number;
