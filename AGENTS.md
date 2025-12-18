@@ -15,12 +15,12 @@ will need to use these types to build the game.
 
 For the `processMove` function and the optional `refresh` function, it is highly
 recommended to use `immer` library (as shown in all examples). Also, use the
-Deno Standard Library when necessary. `jsr:@std/random@0.1` is particularly
-useful for games.
+Deno Standard Library when necessary. `@std/random` is particularly useful for
+games.
 
-The UI is built using Preact views styled with inline Tailwind v3 classes. These
-views live in the `components` directory. The root views are `PlayerView` and
-`ObserverView` in `gameviews.tsx`, and `LobbyView` in `lobbyviews.tsx`.
+The UI is built using Preact views. These views live in the `components`
+directory. The root views are `PlayerView` and `ObserverView` in
+`gameviews.tsx`, and `LobbyView` in `lobbyviews.tsx`.
 
 After creating a game, makes sure to lint/typecheck it and fix errors.
 

@@ -73,7 +73,7 @@ function getNextPlayer(
   currentPlayer: number,
   direction: 1 | -1,
   numPlayers: number,
-  skip: boolean = false
+  skip: boolean = false,
 ): number {
   let next = (currentPlayer + direction + numPlayers) % numPlayers;
 
@@ -175,7 +175,7 @@ export const game: Game<Config, GameState, Move, PlayerState, ObserverState> = {
       const playerHand = state.hands[playerId];
       const hasCard = playerHand.some(
         (card) =>
-          card.color === move.card.color && card.value === move.card.value
+          card.color === move.card.color && card.value === move.card.value,
       );
 
       if (!state.mustPlayDrawnCard && !hasCard) {
@@ -257,7 +257,7 @@ export const game: Game<Config, GameState, Move, PlayerState, ObserverState> = {
             s.currentPlayer = getNextPlayer(
               playerId,
               s.direction,
-              s.hands.length
+              s.hands.length,
             );
           }
         }
@@ -293,7 +293,7 @@ export const game: Game<Config, GameState, Move, PlayerState, ObserverState> = {
         const hand = s.hands[playerId];
         const cardIndex = hand.findIndex(
           (card) =>
-            card.color === move.card.color && card.value === move.card.value
+            card.color === move.card.color && card.value === move.card.value,
         );
 
         if (cardIndex !== -1) {
@@ -341,7 +341,7 @@ export const game: Game<Config, GameState, Move, PlayerState, ObserverState> = {
             const nextPlayer = getNextPlayer(
               playerId,
               s.direction,
-              s.hands.length
+              s.hands.length,
             );
             for (let i = 0; i < 2; i++) {
               if (s.deck.length === 0) {
@@ -381,7 +381,7 @@ export const game: Game<Config, GameState, Move, PlayerState, ObserverState> = {
           playerId,
           s.direction,
           s.hands.length,
-          skip
+          skip,
         );
       } else if (move.type === "pass") {
         // Reset uno state if anyone passes
@@ -422,8 +422,9 @@ export const game: Game<Config, GameState, Move, PlayerState, ObserverState> = {
       drawPileSize: state.drawPileSize,
       currentPlayer: state.currentPlayer,
       drawnCard: playerId === state.currentPlayer ? state.drawnCard : null,
-      mustPlayDrawnCard:
-        playerId === state.currentPlayer ? state.mustPlayDrawnCard : false,
+      mustPlayDrawnCard: playerId === state.currentPlayer
+        ? state.mustPlayDrawnCard
+        : false,
       playerWithOneCard: state.playerWithOneCard,
       unoHasBeenCalled: state.unoHasBeenCalled,
     };
