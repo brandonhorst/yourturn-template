@@ -12,7 +12,7 @@ export type GameState = {
 export type Config = undefined;
 
 export type PlayerState =
-  | { state: "waiting" }
+  | { state: "active" }
   | { state: "played"; ownAction: RPSAction }
   | {
     state: "complete";

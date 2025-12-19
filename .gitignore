@@ -11,4 +11,6 @@ _fresh/
 node_modules/
 vendor/
 
+.claude
+
 .DS_Store

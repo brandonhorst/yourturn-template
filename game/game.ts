@@ -98,7 +98,7 @@ export const game: Game<
         ownAction,
       };
     } else {
-      return { state: "waiting" };
+      return { state: "active" };
     }
   },
 

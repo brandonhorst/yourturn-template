@@ -25,11 +25,11 @@
     "vite": "npm:vite@^7.3.0",
     "tailwindcss": "npm:tailwindcss@^4.1.18",
     "@tailwindcss/vite": "npm:@tailwindcss/vite@^4.1.18",
-    "yourturn": "jsr:@brandonhorst/yourturn@0.10.1",
+    // "yourturn": "jsr:@brandonhorst/yourturn@0.10.1",
     // For local yourturn development
-    // "yourturn/hooks": "../yourturn/hooks.ts",
-    // "yourturn/server": "../yourturn/server.ts",
-    // "yourturn/types": "../yourturn/types.ts",
+    "yourturn/hooks": "../yourturn/hooks.ts",
+    "yourturn/server": "../yourturn/server.ts",
+    "yourturn/types": "../yourturn/types.ts",
     "immer": "npm:immer@^11.0.1",
     "@preact-icons/fa6": "jsr:@preact-icons/fa6@^1.0.13"
   },
