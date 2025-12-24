@@ -6,7 +6,6 @@ import type {
   GameState,
   Move,
   ObserverState,
-  PlayerId,
   PlayerState,
 } from "./types.ts";
 import { produce } from "immer";
@@ -40,20 +39,26 @@ function updateTimestamp(s: GameState, playerId: number, timestamp: Date) {
   s.lastUpdateTimestamp = timestamp.valueOf();
 }
 
-export const game: Game<Config, GameState, Move, PlayerState, ObserverState, PlayerId> = {
+export const game: Game<
+  Config,
+  GameState,
+  Move,
+  PlayerState,
+  ObserverState
+> = {
   modes: {
     micro: {
-      playerIds: [0, 1],
+      numPlayers: 2,
       matchmaking: "queue",
       config: { boardSize: 9, winLength: 4 },
     },
     standard: {
-      playerIds: [0, 1],
+      numPlayers: 2,
       matchmaking: "queue",
       config: { boardSize: 15, winLength: 5 },
     },
     legacy: {
-      playerIds: [0, 1],
+      numPlayers: 2,
       matchmaking: "queue",
       config: { boardSize: 19, winLength: 5 },
     },

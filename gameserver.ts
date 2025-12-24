@@ -1,12 +1,12 @@
 import { initializeServer, type Server } from "yourturn/server";
-import { game } from "./game/game.ts";
+import { game } from "@game/game.ts";
 import type {
   Config,
   GameState,
   Move,
   ObserverState,
   PlayerState,
-} from "./game/types.ts";
+} from "@game/types.ts";
 
 let gameServer:
   | Server<Config, GameState, Move, PlayerState, ObserverState>
