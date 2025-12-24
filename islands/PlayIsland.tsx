@@ -10,7 +10,7 @@ export default function PlayIsland(
     initialPlayerProps: PlayerProps<PlayerState>;
   },
 ) {
-  const { playerState, perform } = usePlaySocket(
+  const { playerState, perform, isComplete } = usePlaySocket(
     `/play/${props.gameId}/${props.sessionId}/socket`,
     props.initialPlayerProps,
   );
@@ -18,6 +18,7 @@ export default function PlayIsland(
   return (
     <PlayerView
       playerState={playerState}
+      isComplete={isComplete}
       perform={perform}
     />
   );

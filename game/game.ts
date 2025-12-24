@@ -4,12 +4,11 @@ import type {
   GameState,
   Move,
   ObserverState,
-  PlayerId,
   PlayerState,
 } from "./types.ts";
 import { produce } from "immer";
 
-function otherPlayerId(playerId: 0 | 1): 0 | 1 {
+function otherPlayerId(playerId: number): 0 | 1 {
   return (1 + playerId) % 2 as 0 | 1;
 }
 
@@ -18,19 +17,18 @@ export const game: Game<
   GameState,
   Move,
   PlayerState,
-  ObserverState,
-  PlayerId
+  ObserverState
 > = {
   modes: {
     queue: {
-      playerIds: [0, 1],
+      numPlayers: 2,
       matchmaking: "queue",
       config: undefined,
     },
   },
 
   setup(): Readonly<GameState> {
-    return { actions: { 0: null, 1: null } };
+    return { actions: [null, null] };
   },
 
   isValidMove(_s, {
@@ -53,8 +51,9 @@ export const game: Game<
       players: _players,
     },
   ): Readonly<GameState> {
+    const pid = playerId as 0 | 1;
     return produce(s, (s) => {
-      s.actions[playerId] = move;
+      s.actions[pid] = move;
     });
   },
 
@@ -111,7 +110,7 @@ export const game: Game<
       const action1 = s.actions[1];
 
       // Calculate winner
-      let winner: PlayerId | "tie";
+      let winner: 0 | 1 | "tie";
       if (action0 === action1) {
         winner = "tie";
       } else if (

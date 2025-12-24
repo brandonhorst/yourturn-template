@@ -1,12 +1,7 @@
 export type RPSAction = "rock" | "paper" | "scissors";
 
-export type PlayerId = 0 | 1;
-
 export type GameState = {
-  actions: {
-    0: RPSAction | null;
-    1: RPSAction | null;
-  };
+  actions: [RPSAction | null, RPSAction | null];
 };
 
 export type Config = undefined;
@@ -26,7 +21,7 @@ export type ObserverState =
   | {
     state: "complete";
     actions: { 0: RPSAction; 1: RPSAction };
-    winner: PlayerId | "tie";
+    winner: 0 | 1 | "tie";
   };
 
 export type Move = RPSAction;
