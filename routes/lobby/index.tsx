@@ -1,4 +1,4 @@
-import LobbyIsland from "../../islands/Lobby.tsx";
+import LobbyIsland from "../../islands/LobbyIsland.tsx";
 import { getGameServer } from "../../gameserver.ts";
 import { define } from "../../utils.ts";
 

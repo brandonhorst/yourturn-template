@@ -39,7 +39,13 @@ function updateTimestamp(s: GameState, playerId: number, timestamp: Date) {
   s.lastUpdateTimestamp = timestamp.valueOf();
 }
 
-export const game: Game<Config, GameState, Move, PlayerState, ObserverState> = {
+export const game: Game<
+  Config,
+  GameState,
+  Move,
+  PlayerState,
+  ObserverState
+> = {
   modes: {
     micro: {
       numPlayers: 2,
@@ -76,7 +82,13 @@ export const game: Game<Config, GameState, Move, PlayerState, ObserverState> = {
     };
   },
 
-  isValidMove(s, { move, playerId }): boolean {
+  isValidMove(s, {
+    move,
+    playerId,
+    config: _config,
+    timestamp: _timestamp,
+    players: _players,
+  }): boolean {
     // Make sure it's this player's turn
     if (playerId !== s.currentPlayer) {
       return false;
@@ -96,7 +108,13 @@ export const game: Game<Config, GameState, Move, PlayerState, ObserverState> = {
     return s.board[move.row][move.col] === null;
   },
 
-  processMove(s, { move, playerId, timestamp }): Readonly<GameState> {
+  processMove(s, {
+    move,
+    playerId,
+    timestamp,
+    config: _config,
+    players: _players,
+  }): Readonly<GameState> {
     return produce(s, (s) => {
       // Update the player's remaining time
       updateTimestamp(s, playerId, timestamp);
@@ -113,7 +131,11 @@ export const game: Game<Config, GameState, Move, PlayerState, ObserverState> = {
     return s.timeRemainingMs[s.currentPlayer];
   },
 
-  refresh(s, { timestamp }): Readonly<GameState> {
+  refresh(s, {
+    timestamp,
+    config: _config,
+    players: _players,
+  }): Readonly<GameState> {
     return produce(s, (s) => {
       // Update the player's remaining time
       updateTimestamp(s, s.currentPlayer, timestamp);
@@ -122,7 +144,13 @@ export const game: Game<Config, GameState, Move, PlayerState, ObserverState> = {
 
   playerState(
     s,
-    { playerId, players, isComplete, config, timestamp },
+    {
+      playerId,
+      players,
+      isComplete,
+      config,
+      timestamp,
+    },
   ): Readonly<PlayerState> {
     const winner = findWinner(s.board, config);
     const calculatedTimeRemainingMs = calculateTimeRemaining(
@@ -147,7 +175,12 @@ export const game: Game<Config, GameState, Move, PlayerState, ObserverState> = {
 
   observerState(
     s,
-    { players, isComplete, config, timestamp },
+    {
+      players,
+      isComplete,
+      config,
+      timestamp,
+    },
   ): Readonly<ObserverState> {
     const winner = findWinner(s.board, config);
     const calculatedTimeRemainingMs = calculateTimeRemaining(
@@ -168,7 +201,10 @@ export const game: Game<Config, GameState, Move, PlayerState, ObserverState> = {
     };
   },
 
-  isComplete(s, { config }): boolean {
+  isComplete(s, {
+    config,
+    players: _players,
+  }): boolean {
     // Game is complete if there's a winner, the board is full, or a player ran out of time
     return findWinner(s.board, config) !== null ||
       isBoardFull(s.board) ||

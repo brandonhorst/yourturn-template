@@ -8,11 +8,7 @@ export default function Button(
   },
 ) {
   return (
-    <button
-      type="button"
-      class="btn"
-      onClick={props.onClick}
-    >
+    <button type="button" class="btn" onClick={props.onClick}>
       {props.children}
     </button>
   );
@@ -23,13 +19,14 @@ export function LobbyView(
 ) {
   return (
     <div class="p-4">
-      <h1 class="text-xl pt-4">New Empty Game</h1>
+      <h1 class="text-xl pt-4">Rock Paper Scissors</h1>
 
       <h2 class="text-lg pt-4">New Game</h2>
       {isQueued
         ? <Button onClick={leaveQueue}>Leave Queue</Button>
         : <Button onClick={() => joinQueue("queue")}>Join Queue</Button>}
 
+      <h2 class="text-lg pt-4">Active Games</h2>
       {activeGames.length === 0
         ? <div class="italic">No Active Games</div>
         : (
