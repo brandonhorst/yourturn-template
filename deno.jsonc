@@ -20,7 +20,7 @@
     "daisyui": "npm:daisyui@^5.5.14",
     "fresh": "jsr:@fresh/core@^2.2.0",
     "preact": "npm:preact@^10.27.2",
-    "@preact/signals": "npm:@preact/signals@^2.5.0",
+    "@preact/signals": "npm:@preact/signals@^2.2.1",
     "@fresh/plugin-vite": "jsr:@fresh/plugin-vite@^1.0.8",
     "vite": "npm:vite@^7.3.0",
     "tailwindcss": "npm:tailwindcss@^4.1.18",
@@ -29,8 +29,7 @@
     "yourturn/hooks": "../yourturn/hooks.ts",
     "yourturn/server": "../yourturn/server.ts",
     "yourturn/types": "../yourturn/types.ts",
-    "immer": "npm:immer@^11.0.1",
-    "@preact-icons/fa6": "jsr:@preact-icons/fa6@^1.0.13"
+    "immer": "npm:immer@^11.1.0"
   },
   "compilerOptions": {
     "lib": ["dom", "dom.asynciterable", "dom.iterable", "deno.ns"],
@@ -55,4 +54,5 @@
     "types": ["vite/client"]
   },
   "unstable": ["kv"]
+  // "lock": false
 }
