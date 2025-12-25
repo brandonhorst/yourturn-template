@@ -54,5 +54,4 @@
     "types": ["vite/client"]
   },
   "unstable": ["kv"]
-  // "lock": false
 }
