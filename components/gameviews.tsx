@@ -4,7 +4,7 @@ import type {
   ObserverState,
   PlayerState,
   RPSAction,
-} from "../game/types.ts";
+} from "@/game/types.ts";
 
 function getEmoji(action: RPSAction) {
   switch (action) {
