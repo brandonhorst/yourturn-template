@@ -90,8 +90,9 @@ function CountdownTimer(
 }
 
 // Player info component with timer
-function PlayerInfo({ player, timeRemainingMs, isActive, color }: {
-  player: { name: string; isVictor: boolean };
+function PlayerInfo({ name, isVictor, timeRemainingMs, isActive, color }: {
+  name: string;
+  isVictor: boolean;
   timeRemainingMs: number;
   isActive: boolean;
   color: "black" | "white";
@@ -99,7 +100,7 @@ function PlayerInfo({ player, timeRemainingMs, isActive, color }: {
   return (
     <div
       class={`p-2 rounded ${
-        player.isVictor ? "bg-green-100" : isActive ? "bg-yellow-50" : ""
+        isVictor ? "bg-green-100" : isActive ? "bg-yellow-50" : ""
       }`}
     >
       <div class="flex items-center gap-2">
@@ -109,11 +110,11 @@ function PlayerInfo({ player, timeRemainingMs, isActive, color }: {
           }`}
         >
         </div>
-        <span>{player.name}</span>
-        {player.isVictor && <span>(Winner!)</span>}
+        <span>{name}</span>
+        {isVictor && <span>(Winner!)</span>}
         <CountdownTimer
           initialTimeMs={timeRemainingMs}
-          isActive={isActive && !player.isVictor}
+          isActive={isActive && !isVictor}
         />
       </div>
     </div>
@@ -121,21 +122,24 @@ function PlayerInfo({ player, timeRemainingMs, isActive, color }: {
 }
 
 export function PlayerView(
-  { playerState, perform }: PlayerViewProps<Move, PlayerState>,
+  { playerState, perform, players }: PlayerViewProps<Move, PlayerState>,
 ) {
+  const winner = playerState.winner;
   return (
     <div class="p-4">
       <div class="mb-4 text-center">
         <h2 class="text-xl font-bold">Gomoku</h2>
         <div class="flex justify-center gap-8 mb-4">
           <PlayerInfo
-            player={playerState.perPlayer[0]}
+            name={players[0]?.name ?? "Player 1"}
+            isVictor={winner === 0}
             timeRemainingMs={playerState.timeRemainingMs[0]}
             isActive={playerState.currentPlayer === 0}
             color="black"
           />
           <PlayerInfo
-            player={playerState.perPlayer[1]}
+            name={players[1]?.name ?? "Player 2"}
+            isVictor={winner === 1}
             timeRemainingMs={playerState.timeRemainingMs[1]}
             isActive={playerState.currentPlayer === 1}
             color="white"
@@ -146,7 +150,7 @@ export function PlayerView(
           <div class="mb-4 font-bold text-green-600">Your turn</div>
         )}
         {!playerState.pendingAction &&
-          !playerState.perPlayer.some((p) => p.isVictor) && (
+          winner === null && (
           <div class="mb-4">Waiting for opponent...</div>
         )}
       </div>
@@ -161,21 +165,24 @@ export function PlayerView(
 }
 
 export function ObserverView(
-  { observerState }: ObserveViewProps<ObserverState>,
+  { observerState, players }: ObserveViewProps<ObserverState>,
 ) {
+  const winner = observerState.winner;
   return (
     <div class="p-4">
       <div class="mb-4 text-center">
         <h2 class="text-xl font-bold">Gomoku (Observer View)</h2>
         <div class="flex justify-center gap-8 mb-4">
           <PlayerInfo
-            player={observerState.perPlayer[0]}
+            name={players[0]?.name ?? "Player 1"}
+            isVictor={winner === 0}
             timeRemainingMs={observerState.timeRemainingMs[0]}
             isActive={observerState.currentPlayer === 0}
             color="black"
           />
           <PlayerInfo
-            player={observerState.perPlayer[1]}
+            name={players[1]?.name ?? "Player 2"}
+            isVictor={winner === 1}
             timeRemainingMs={observerState.timeRemainingMs[1]}
             isActive={observerState.currentPlayer === 1}
             color="white"

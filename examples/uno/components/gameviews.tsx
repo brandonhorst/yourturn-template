@@ -78,11 +78,13 @@ function ColorPicker(props: { onSelectColor: (color: CardColor) => void }) {
 
 function PlayersList({
   players,
+  cardCounts,
   currentPlayer,
   playerWithOneCard = null,
   unoHasBeenCalled = false,
 }: {
-  players: { name: string; cardCount: number; isVictor: boolean }[];
+  players: { name: string }[];
+  cardCounts: number[];
   currentPlayer: number;
   playerWithOneCard?: number | null;
   unoHasBeenCalled?: boolean;
@@ -90,11 +92,14 @@ function PlayersList({
   return (
     <div class="mb-4">
       <div class="flex justify-center items-center space-x-8">
-        {players.map((player, index) => (
+        {players.map((player, index) => {
+          const cardCount = cardCounts[index] ?? 0;
+          const isVictor = cardCount === 0;
+          return (
           <div
             key={index}
             class={`p-2 rounded-lg ${
-              player.isVictor
+              isVictor
                 ? "bg-green-100"
                 : index === currentPlayer
                 ? "bg-yellow-100"
@@ -102,8 +107,8 @@ function PlayersList({
             }`}
           >
             <div class="font-bold">{player.name}</div>
-            <div>{player.cardCount} cards</div>
-            {player.isVictor && (
+            <div>{cardCount} cards</div>
+            {isVictor && (
               <div class="font-bold text-green-600">Winner!</div>
             )}
             {playerWithOneCard !== null && index === playerWithOneCard && (
@@ -117,7 +122,8 @@ function PlayersList({
               </>
             )}
           </div>
-        ))}
+        );
+        })}
       </div>
     </div>
   );
@@ -150,6 +156,8 @@ function GameBoard({
 export function PlayerView({
   playerState,
   perform,
+  players,
+  playerId,
 }: PlayerViewProps<Move, PlayerState>) {
   const [selectingColor, setSelectingColor] = useState(false);
   const [selectedCard, setSelectedCard] = useState<Card | null>(null);
@@ -203,7 +211,8 @@ export function PlayerView({
       <h2 class="text-xl font-bold text-center mb-4">UNO</h2>
 
       <PlayersList
-        players={playerState.perPlayer}
+        players={players}
+        cardCounts={playerState.cardCounts}
         currentPlayer={playerState.currentPlayer}
       />
 
@@ -224,10 +233,10 @@ export function PlayerView({
             UNO!
           </button>
           <div class="text-sm text-gray-600">
-            {playerState.playerWithOneCard === playerState.playerId
+            {playerState.playerWithOneCard === playerId
               ? "Click to declare Uno for yourself!"
               : `${
-                playerState.perPlayer[playerState.playerWithOneCard]?.name
+                players[playerState.playerWithOneCard ?? -1]?.name ?? "Player"
               } has one card! Call Uno to make them draw 2 cards!`}
           </div>
         </div>
@@ -304,13 +313,15 @@ export function PlayerView({
 
 export function ObserverView({
   observerState,
+  players,
 }: ObserveViewProps<ObserverState>) {
   return (
     <div class="p-4">
       <h2 class="text-xl font-bold text-center mb-4">UNO (Observer View)</h2>
 
       <PlayersList
-        players={observerState.perPlayer}
+        players={players}
+        cardCounts={observerState.cardCounts}
         currentPlayer={observerState.currentPlayer}
         playerWithOneCard={observerState.playerWithOneCard}
         unoHasBeenCalled={observerState.unoHasBeenCalled}

@@ -146,7 +146,6 @@ export const game: Game<
     s,
     {
       playerId,
-      players,
       isComplete,
       config,
       timestamp,
@@ -160,23 +159,17 @@ export const game: Game<
     );
 
     return {
-      playerId,
       pendingAction: playerId === s.currentPlayer && !isComplete,
-      perPlayer: players.map((player, idx) => ({
-        name: player.name,
-        color: idx === 0 ? "black" : "white",
-        isVictor: winner === idx,
-      })),
       board: s.board,
       timeRemainingMs: calculatedTimeRemainingMs,
       currentPlayer: s.currentPlayer,
+      winner,
     };
   },
 
   observerState(
     s,
     {
-      players,
       isComplete,
       config,
       timestamp,
@@ -190,14 +183,10 @@ export const game: Game<
     );
 
     return {
-      perPlayer: players.map((player, idx) => ({
-        name: player.name,
-        color: idx === 0 ? "black" : "white",
-        isVictor: winner === idx,
-      })),
       board: s.board,
       timeRemainingMs: calculatedTimeRemainingMs,
       currentPlayer: s.currentPlayer,
+      winner,
     };
   },
 

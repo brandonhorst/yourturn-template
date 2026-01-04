@@ -406,17 +406,12 @@ export const game: Game<Config, GameState, Move, PlayerState, ObserverState> = {
     });
   },
 
-  playerState(state, { playerId, players, isComplete }): Readonly<PlayerState> {
+  playerState(state, { playerId, isComplete }): Readonly<PlayerState> {
     const topCard = state.discardPile[state.discardPile.length - 1];
 
     return {
-      playerId,
       pendingAction: playerId === state.currentPlayer && !isComplete,
-      perPlayer: players.map((player, idx) => ({
-        name: player.name,
-        cardCount: state.hands[idx].length,
-        isVictor: state.hands[idx].length === 0,
-      })),
+      cardCounts: state.hands.map((hand) => hand.length),
       hand: state.hands[playerId],
       topCard,
       drawPileSize: state.drawPileSize,
@@ -430,15 +425,11 @@ export const game: Game<Config, GameState, Move, PlayerState, ObserverState> = {
     };
   },
 
-  observerState(state, { players }): Readonly<ObserverState> {
+  observerState(state): Readonly<ObserverState> {
     const topCard = state.discardPile[state.discardPile.length - 1];
 
     return {
-      perPlayer: players.map((player, idx) => ({
-        name: player.name,
-        cardCount: state.hands[idx].length,
-        isVictor: state.hands[idx].length === 0,
-      })),
+      cardCounts: state.hands.map((hand) => hand.length),
       topCard,
       drawPileSize: state.drawPileSize,
       currentPlayer: state.currentPlayer,

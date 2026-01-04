@@ -18,26 +18,19 @@ export type GameState = {
   lastUpdateTimestamp: number; // Timestamp of the last move
 };
 
-type PerPlayerClientState = {
-  name: string;
-  color: "black" | "white";
-  isVictor: boolean;
-};
-
 export type PlayerState = {
-  playerId: number;
   pendingAction: boolean;
-  perPlayer: PerPlayerClientState[];
   board: Board;
   timeRemainingMs: [number, number]; // Remaining time in milliseconds for each player
   currentPlayer: number; // Index of the current player (0 or 1)
+  winner: number | null;
 };
 
 export type ObserverState = {
-  perPlayer: PerPlayerClientState[];
   board: Board;
   timeRemainingMs: [number, number]; // Remaining time in milliseconds for each player
   currentPlayer: number; // Index of the current player (0 or 1)
+  winner: number | null;
 };
 
 export type Move = Position;

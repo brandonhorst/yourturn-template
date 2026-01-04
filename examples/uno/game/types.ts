@@ -38,16 +38,9 @@ export type GameState = {
   unoHasBeenCalled: boolean;
 };
 
-type PerPlayerClientState = {
-  name: string;
-  cardCount: number;
-  isVictor: boolean;
-};
-
 export type PlayerState = {
-  playerId: number;
   pendingAction: boolean;
-  perPlayer: PerPlayerClientState[];
+  cardCounts: number[];
   hand: Card[];
   topCard: Card;
   drawPileSize: number;
@@ -59,7 +52,7 @@ export type PlayerState = {
 };
 
 export type ObserverState = {
-  perPlayer: PerPlayerClientState[];
+  cardCounts: number[];
   topCard: Card;
   drawPileSize: number;
   currentPlayer: number;
