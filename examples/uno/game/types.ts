@@ -38,6 +38,10 @@ export type GameState = {
   unoHasBeenCalled: boolean;
 };
 
+export type Player = {
+  name: string;
+};
+
 export type PlayerState = {
   pendingAction: boolean;
   cardCounts: number[];

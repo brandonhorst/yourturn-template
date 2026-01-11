@@ -5,17 +5,19 @@ import type {
   GameState,
   Move,
   ObserverState,
+  Player,
   PlayerState,
 } from "./game/types.ts";
 
 let gameServer:
-  | Server<Config, GameState, Move, PlayerState, ObserverState>
+  | Server<Config, GameState, Move, Player, PlayerState, ObserverState>
   | undefined;
 
 export function getGameServer(): Server<
   Config,
   GameState,
   Move,
+  Player,
   PlayerState,
   ObserverState
 > {

@@ -7,6 +7,7 @@ import type {
   GameState,
   Move,
   ObserverState,
+  Player,
   PlayerState,
 } from "./types.ts";
 import { produce } from "immer";
@@ -85,7 +86,14 @@ function getNextPlayer(
   return next;
 }
 
-export const game: Game<Config, GameState, Move, PlayerState, ObserverState> = {
+export const game: Game<
+  Config,
+  GameState,
+  Move,
+  Player,
+  PlayerState,
+  ObserverState
+> = {
   modes: {
     twoPlayer: {
       numPlayers: 2,

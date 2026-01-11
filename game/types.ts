@@ -4,6 +4,10 @@ export type GameState = {
   actions: [RPSAction | null, RPSAction | null];
 };
 
+export type Player = {
+  name: string;
+};
+
 export type Config = undefined;
 
 export type PlayerState =

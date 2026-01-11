@@ -4,6 +4,7 @@ import type {
   CardColor,
   Move,
   ObserverState,
+  Player,
   PlayerState,
 } from "../game/types.ts";
 import { useState } from "preact/hooks";
@@ -96,33 +97,31 @@ function PlayersList({
           const cardCount = cardCounts[index] ?? 0;
           const isVictor = cardCount === 0;
           return (
-          <div
-            key={index}
-            class={`p-2 rounded-lg ${
-              isVictor
-                ? "bg-green-100"
-                : index === currentPlayer
-                ? "bg-yellow-100"
-                : ""
-            }`}
-          >
-            <div class="font-bold">{player.name}</div>
-            <div>{cardCount} cards</div>
-            {isVictor && (
-              <div class="font-bold text-green-600">Winner!</div>
-            )}
-            {playerWithOneCard !== null && index === playerWithOneCard && (
-              <>
-                {!unoHasBeenCalled && (
-                  <div class="font-bold text-red-600">Needs to call UNO!</div>
-                )}
-                {unoHasBeenCalled && (
-                  <div class="font-bold text-red-600">UNO!</div>
-                )}
-              </>
-            )}
-          </div>
-        );
+            <div
+              key={index}
+              class={`p-2 rounded-lg ${
+                isVictor
+                  ? "bg-green-100"
+                  : index === currentPlayer
+                  ? "bg-yellow-100"
+                  : ""
+              }`}
+            >
+              <div class="font-bold">{player.name}</div>
+              <div>{cardCount} cards</div>
+              {isVictor && <div class="font-bold text-green-600">Winner!</div>}
+              {playerWithOneCard !== null && index === playerWithOneCard && (
+                <>
+                  {!unoHasBeenCalled && (
+                    <div class="font-bold text-red-600">Needs to call UNO!</div>
+                  )}
+                  {unoHasBeenCalled && (
+                    <div class="font-bold text-red-600">UNO!</div>
+                  )}
+                </>
+              )}
+            </div>
+          );
         })}
       </div>
     </div>
@@ -158,7 +157,7 @@ export function PlayerView({
   perform,
   players,
   playerId,
-}: PlayerViewProps<Move, PlayerState>) {
+}: PlayerViewProps<Move, PlayerState, Player>) {
   const [selectingColor, setSelectingColor] = useState(false);
   const [selectedCard, setSelectedCard] = useState<Card | null>(null);
 
@@ -314,7 +313,7 @@ export function PlayerView({
 export function ObserverView({
   observerState,
   players,
-}: ObserveViewProps<ObserverState>) {
+}: ObserveViewProps<ObserverState, Player>) {
   return (
     <div class="p-4">
       <h2 class="text-xl font-bold text-center mb-4">UNO (Observer View)</h2>

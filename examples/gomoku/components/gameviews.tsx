@@ -1,5 +1,10 @@
 import { ObserveViewProps, PlayerViewProps } from "yourturn/types";
-import type { Move, ObserverState, PlayerState } from "../game/types.ts";
+import type {
+  Move,
+  ObserverState,
+  Player,
+  PlayerState,
+} from "../game/types.ts";
 import { useEffect, useState } from "preact/hooks";
 
 function GomokuBoard(
@@ -122,7 +127,7 @@ function PlayerInfo({ name, isVictor, timeRemainingMs, isActive, color }: {
 }
 
 export function PlayerView(
-  { playerState, perform, players }: PlayerViewProps<Move, PlayerState>,
+  { playerState, perform, players }: PlayerViewProps<Move, PlayerState, Player>,
 ) {
   const winner = playerState.winner;
   return (
@@ -150,9 +155,7 @@ export function PlayerView(
           <div class="mb-4 font-bold text-green-600">Your turn</div>
         )}
         {!playerState.pendingAction &&
-          winner === null && (
-          <div class="mb-4">Waiting for opponent...</div>
-        )}
+          winner === null && <div class="mb-4">Waiting for opponent...</div>}
       </div>
 
       <GomokuBoard
@@ -165,7 +168,7 @@ export function PlayerView(
 }
 
 export function ObserverView(
-  { observerState, players }: ObserveViewProps<ObserverState>,
+  { observerState, players }: ObserveViewProps<ObserverState, Player>,
 ) {
   const winner = observerState.winner;
   return (

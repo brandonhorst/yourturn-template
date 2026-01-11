@@ -4,6 +4,7 @@ import type {
   GameState,
   Move,
   ObserverState,
+  Player,
   PlayerState,
 } from "./types.ts";
 import { produce } from "immer";
@@ -16,6 +17,7 @@ export const game: Game<
   Config,
   GameState,
   Move,
+  Player,
   PlayerState,
   ObserverState
 > = {

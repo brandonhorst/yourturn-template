@@ -18,6 +18,10 @@ export type GameState = {
   lastUpdateTimestamp: number; // Timestamp of the last move
 };
 
+export type Player = {
+  name: string;
+};
+
 export type PlayerState = {
   pendingAction: boolean;
   board: Board;

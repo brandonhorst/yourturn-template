@@ -1,5 +1,5 @@
 import { usePlaySocket } from "yourturn/hooks";
-import { PlayerState } from "@/game/types.ts";
+import { Player, PlayerState } from "@/game/types.ts";
 import { PlayerView } from "@/components/gameviews.tsx";
 import { PlayerProps } from "yourturn/types";
 
@@ -7,7 +7,7 @@ export default function PlayIsland(
   props: {
     gameId: string;
     sessionId: string;
-    initialPlayerProps: PlayerProps<PlayerState>;
+    initialPlayerProps: PlayerProps<PlayerState, Player>;
   },
 ) {
   const playProps = usePlaySocket(

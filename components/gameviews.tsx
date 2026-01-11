@@ -2,6 +2,7 @@ import { ObserveViewProps, PlayerViewProps } from "yourturn/types";
 import type {
   Move,
   ObserverState,
+  Player,
   PlayerState,
   RPSAction,
 } from "@/game/types.ts";
@@ -32,7 +33,7 @@ function EmojiButton(
 }
 
 export function PlayerView(
-  { playerState, perform }: PlayerViewProps<Move, PlayerState>,
+  { playerState, perform }: PlayerViewProps<Move, PlayerState, Player>,
 ) {
   return (
     <div class="p-4">
@@ -97,7 +98,7 @@ export function PlayerView(
 }
 
 export function ObserverView(
-  { observerState }: ObserveViewProps<ObserverState>,
+  { observerState }: ObserveViewProps<ObserverState, Player>,
 ) {
   return (
     <div class="p-4">
