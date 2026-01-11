@@ -33,8 +33,19 @@ function EmojiButton(
 }
 
 export function PlayerView(
-  { playerState, perform }: PlayerViewProps<Move, PlayerState, Player>,
+  {
+    playerState,
+    perform,
+    players,
+    playerId,
+  }: PlayerViewProps<Move, PlayerState, Player>,
 ) {
+  const getPlayerName = (index: number) =>
+    players[index]?.name || `Player ${index + 1}`;
+  const opponentId = playerId === 0 ? 1 : 0;
+  const opponentName = getPlayerName(opponentId);
+  const selfName = getPlayerName(playerId);
+
   return (
     <div class="p-4">
       <h2 class="text-2xl font-bold">Rock Paper Scissors</h2>
@@ -62,7 +73,7 @@ export function PlayerView(
           <p>
             You chose: {getEmoji(playerState.ownAction)}
           </p>
-          <p>Waiting for opponent...</p>
+          <p>Waiting for {opponentName}...</p>
         </div>
       )}
 
@@ -71,12 +82,12 @@ export function PlayerView(
           <div class="flex gap-4">
             <div>
               <div>{getEmoji(playerState.ownAction)}</div>
-              <div>You</div>
+              <div>{selfName}</div>
             </div>
             <div>vs</div>
             <div>
               <div>{getEmoji(playerState.oppositeAction)}</div>
-              <div>Opponent</div>
+              <div>{opponentName}</div>
             </div>
           </div>
 
@@ -98,8 +109,11 @@ export function PlayerView(
 }
 
 export function ObserverView(
-  { observerState }: ObserveViewProps<ObserverState, Player>,
+  { observerState, players }: ObserveViewProps<ObserverState, Player>,
 ) {
+  const getPlayerName = (index: number) =>
+    players[index]?.name || `Player ${index + 1}`;
+
   return (
     <div class="p-4">
       <h2 class="text-2xl font-bold">Rock Paper Scissors</h2>
@@ -114,21 +128,25 @@ export function ObserverView(
           <div class="flex gap-4">
             <div>
               <div>{getEmoji(observerState.actions[0])}</div>
-              <div>Player 1</div>
+              <div>{getPlayerName(0)}</div>
             </div>
             <div>vs</div>
             <div>
               <div>{getEmoji(observerState.actions[1])}</div>
-              <div>Player 2</div>
+              <div>{getPlayerName(1)}</div>
             </div>
           </div>
 
           <div class="mt-4">
             {observerState.winner === 0 && (
-              <span class="text-success">Player 1 Wins! 🎉</span>
+              <span class="text-success">
+                {getPlayerName(0)} Wins! 🎉
+              </span>
             )}
             {observerState.winner === 1 && (
-              <span class="text-success">Player 2 Wins! 🎉</span>
+              <span class="text-success">
+                {getPlayerName(1)} Wins! 🎉
+              </span>
             )}
             {observerState.winner === "tie" && (
               <span class="text-warning">It's a Tie! 🤝</span>

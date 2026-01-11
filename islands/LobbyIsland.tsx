@@ -8,7 +8,10 @@ function navigateToGame(gameId: string, sessionId: string) {
 }
 
 export default function LobbyIsland(
-  props: { initialActiveGames: ActiveGame<Config, Player>[] },
+  props: {
+    initialActiveGames: ActiveGame<Config, Player>[];
+    initialPlayerName: string;
+  },
 ) {
   const lobbyProps = useLobbySocket({
     socketUrl: "/lobby/socket",
@@ -16,5 +19,7 @@ export default function LobbyIsland(
     navigate: navigateToGame,
   });
 
-  return <LobbyView {...lobbyProps} />;
+  return (
+    <LobbyView {...lobbyProps} initialPlayerName={props.initialPlayerName} />
+  );
 }
