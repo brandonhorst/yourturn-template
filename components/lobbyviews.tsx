@@ -1,5 +1,6 @@
 import { ComponentChildren } from "preact";
 import { LobbyViewProps } from "yourturn/types";
+import type { Config, Player } from "@/game/types.ts";
 
 export default function Button(
   props: {
@@ -15,8 +16,16 @@ export default function Button(
 }
 
 export function LobbyView(
-  { activeGames, joinQueue, isQueued, leaveQueue }: LobbyViewProps,
+  { activeGames, joinQueue, isQueued, leaveQueue }: LobbyViewProps<
+    Config,
+    Player
+  >,
 ) {
+  const formatPlayers = (players: Player[]) =>
+    players.map((player, index) => player.name || `Player ${index + 1}`).join(
+      " vs ",
+    );
+
   return (
     <div class="p-4">
       <h1 class="text-xl pt-4">Rock Paper Scissors</h1>
@@ -31,13 +40,13 @@ export function LobbyView(
         ? <div class="italic">No Active Games</div>
         : (
           <ul class="list-disc list-inside">
-            {activeGames.map(({ gameId }) => (
+            {activeGames.map(({ gameId, players }) => (
               <li>
                 <a
                   class="cursor-pointer underline"
                   href={`/observe/${gameId}`}
                 >
-                  {gameId}
+                  {formatPlayers(players)}
                 </a>
               </li>
             ))}
