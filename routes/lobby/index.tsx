@@ -3,8 +3,8 @@ import { getGameServer } from "../../gameserver.ts";
 import { define } from "../../utils.ts";
 
 export default define.page(async function Home() {
-  const initialActiveGames = await getGameServer()
-    .getInitialActiveGames();
+  const initialLobbyProps = await getGameServer()
+    .getInitialLobbyProps();
 
-  return <LobbyIsland initialActiveGames={initialActiveGames} />;
+  return <LobbyIsland initialLobbyProps={initialLobbyProps} />;
 });

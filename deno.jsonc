@@ -8,8 +8,8 @@
     "dev:vite": "vite --clearScreen false",
     "dev": {
       "command": "deno task dev:vite & deno task start",
-      "dependencies": ["build"]
-    }
+      "dependencies": ["build"],
+    },
   },
   "lint": { "rules": { "tags": ["fresh", "recommended"] } },
   "exclude": ["**/_fresh/*"],
@@ -31,12 +31,12 @@
     "vite": "npm:vite@^7.3.0",
     "tailwindcss": "npm:tailwindcss@^4.1.18",
     "@tailwindcss/vite": "npm:@tailwindcss/vite@^4.1.18",
-    "yourturn/": "jsr:/@brandonhorst/yourturn@^0.12.1/",
+    // "yourturn/": "jsr:/@brandonhorst/yourturn@^0.12.1/",
     // Uncomment for development with a local `yourturn`
-    // "yourturn/hooks": "../yourturn/hooks.ts",
-    // "yourturn/server": "../yourturn/server.ts",
-    // "yourturn/types": "../yourturn/types.ts",
-    "immer": "npm:immer@^11.1.0"
+    "yourturn/hooks": "../yourturn/hooks.ts",
+    "yourturn/server": "../yourturn/server.ts",
+    "yourturn/types": "../yourturn/types.ts",
+    "immer": "npm:immer@^11.1.0",
   },
   "compilerOptions": {
     "lib": ["dom", "dom.asynciterable", "dom.iterable", "deno.ns"],
@@ -56,9 +56,9 @@
       "style",
       "base",
       "noscript",
-      "template"
+      "template",
     ],
-    "types": ["vite/client"]
+    "types": ["vite/client"],
   },
-  "unstable": ["kv"]
+  "unstable": ["kv"],
 }
