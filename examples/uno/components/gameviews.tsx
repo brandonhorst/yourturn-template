@@ -96,33 +96,31 @@ function PlayersList({
           const cardCount = cardCounts[index] ?? 0;
           const isVictor = cardCount === 0;
           return (
-          <div
-            key={index}
-            class={`p-2 rounded-lg ${
-              isVictor
-                ? "bg-green-100"
-                : index === currentPlayer
-                ? "bg-yellow-100"
-                : ""
-            }`}
-          >
-            <div class="font-bold">{player.name}</div>
-            <div>{cardCount} cards</div>
-            {isVictor && (
-              <div class="font-bold text-green-600">Winner!</div>
-            )}
-            {playerWithOneCard !== null && index === playerWithOneCard && (
-              <>
-                {!unoHasBeenCalled && (
-                  <div class="font-bold text-red-600">Needs to call UNO!</div>
-                )}
-                {unoHasBeenCalled && (
-                  <div class="font-bold text-red-600">UNO!</div>
-                )}
-              </>
-            )}
-          </div>
-        );
+            <div
+              key={index}
+              class={`p-2 rounded-lg ${
+                isVictor
+                  ? "bg-green-100"
+                  : index === currentPlayer
+                  ? "bg-yellow-100"
+                  : ""
+              }`}
+            >
+              <div class="font-bold">{player.name}</div>
+              <div>{cardCount} cards</div>
+              {isVictor && <div class="font-bold text-green-600">Winner!</div>}
+              {playerWithOneCard !== null && index === playerWithOneCard && (
+                <>
+                  {!unoHasBeenCalled && (
+                    <div class="font-bold text-red-600">Needs to call UNO!</div>
+                  )}
+                  {unoHasBeenCalled && (
+                    <div class="font-bold text-red-600">UNO!</div>
+                  )}
+                </>
+              )}
+            </div>
+          );
         })}
       </div>
     </div>

@@ -15,11 +15,36 @@ export function Button(
 }
 
 export function LobbyView(
-  { activeGames, joinQueue, isQueued, leaveQueue }: LobbyViewProps,
+  {
+    activeGames,
+    joinQueue,
+    isQueued,
+    leaveQueue,
+    updateUsername,
+    user,
+  }: LobbyViewProps,
 ) {
+  const handleChangeUsername = () => {
+    const nextUsername = prompt("Enter a new username", user.username);
+    if (nextUsername == null) {
+      return;
+    }
+    const trimmed = nextUsername.trim();
+    if (trimmed.length === 0 || trimmed === user.username) {
+      return;
+    }
+    updateUsername(trimmed);
+  };
+
   return (
     <div class="p-4 max-w-3xl mx-auto">
       <h1 class="text-xl pt-4">Gomoku</h1>
+
+      <div class="pt-4 flex items-center gap-2">
+        <span class="font-semibold">Username:</span>
+        <span>{user.username}</span>
+        <Button onClick={handleChangeUsername}>Change</Button>
+      </div>
 
       <h2 class="text-lg pt-4">New Game</h2>
       {isQueued

@@ -150,9 +150,7 @@ export function PlayerView(
           <div class="mb-4 font-bold text-green-600">Your turn</div>
         )}
         {!playerState.pendingAction &&
-          winner === null && (
-          <div class="mb-4">Waiting for opponent...</div>
-        )}
+          winner === null && <div class="mb-4">Waiting for opponent...</div>}
       </div>
 
       <GomokuBoard
