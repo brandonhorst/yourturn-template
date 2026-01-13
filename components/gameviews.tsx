@@ -32,8 +32,14 @@ function EmojiButton(
 }
 
 export function PlayerView(
-  { playerState, perform }: PlayerViewProps<Move, PlayerState>,
+  { playerState, perform, playerId, players }: PlayerViewProps<
+    Move,
+    PlayerState
+  >,
 ) {
+  const ownUsername = players[playerId]!.username;
+  const opponentId = playerId === 0 ? 1 : 0;
+  const opponentUsername = players[opponentId]!.username;
   return (
     <div class="p-4">
       <h2 class="text-2xl font-bold">Rock Paper Scissors</h2>
@@ -70,12 +76,12 @@ export function PlayerView(
           <div class="flex gap-4">
             <div>
               <div>{getEmoji(playerState.ownAction)}</div>
-              <div>You</div>
+              <div>{ownUsername}</div>
             </div>
             <div>vs</div>
             <div>
               <div>{getEmoji(playerState.oppositeAction)}</div>
-              <div>Opponent</div>
+              <div>{opponentUsername}</div>
             </div>
           </div>
 
@@ -97,8 +103,10 @@ export function PlayerView(
 }
 
 export function ObserverView(
-  { observerState }: ObserveViewProps<ObserverState>,
+  { observerState, players }: ObserveViewProps<ObserverState>,
 ) {
+  const playerOneName = players[0]!.username;
+  const playerTwoName = players[1]!.username;
   return (
     <div class="p-4">
       <h2 class="text-2xl font-bold">Rock Paper Scissors</h2>
@@ -113,21 +121,21 @@ export function ObserverView(
           <div class="flex gap-4">
             <div>
               <div>{getEmoji(observerState.actions[0])}</div>
-              <div>Player 1</div>
+              <div>{playerOneName}</div>
             </div>
             <div>vs</div>
             <div>
               <div>{getEmoji(observerState.actions[1])}</div>
-              <div>Player 2</div>
+              <div>{playerTwoName}</div>
             </div>
           </div>
 
           <div class="mt-4">
             {observerState.winner === 0 && (
-              <span class="text-success">Player 1 Wins! 🎉</span>
+              <span class="text-success">{playerOneName} Wins! 🎉</span>
             )}
             {observerState.winner === 1 && (
-              <span class="text-success">Player 2 Wins! 🎉</span>
+              <span class="text-success">{playerTwoName} Wins! 🎉</span>
             )}
             {observerState.winner === "tie" && (
               <span class="text-warning">It's a Tie! 🤝</span>
