@@ -6,12 +6,11 @@ import { PlayerProps } from "yourturn/types";
 export default function PlayIsland(
   props: {
     gameId: string;
-    sessionId: string;
     initialPlayerProps: PlayerProps<PlayerState>;
   },
 ) {
   const playProps = usePlaySocket(
-    `/play/${props.gameId}/${props.sessionId}/socket`,
+    `/game/${props.gameId}/socket`,
     props.initialPlayerProps,
   );
 

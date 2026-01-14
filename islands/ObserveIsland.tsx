@@ -7,7 +7,7 @@ export default function ObserveIsland(
   props: { gameId: string; initialObserverProps: ObserverProps<ObserverState> },
 ) {
   const observerProps = useObserveSocket(
-    `/observe/${props.gameId}/socket`,
+    `/game/${props.gameId}/socket`,
     props.initialObserverProps,
   );
   return <ObserverView {...observerProps} />;

@@ -2,8 +2,8 @@ import { useLobbySocket } from "yourturn/hooks";
 import { LobbyView } from "@/components/lobbyviews.tsx";
 import { LobbyProps } from "yourturn/types";
 
-function navigateToGame(gameId: string, sessionId: string) {
-  globalThis.location.href = `/play/${gameId}/${sessionId}`;
+function navigateToGame(gameId: string) {
+  globalThis.location.href = `/game/${gameId}`;
 }
 
 export default function LobbyIsland(

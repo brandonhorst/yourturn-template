@@ -70,7 +70,7 @@ export function LobbyView(
               <li>
                 <a
                   class="cursor-pointer underline"
-                  href={`/observe/${gameId}`}
+                  href={`/game/${gameId}`}
                 >
                   {gameId}
                 </a>
