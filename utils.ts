@@ -6,4 +6,6 @@ export interface State {
   shared: string;
 }
 
+export const YOURTURN_TOKEN_COOKIE = "yourturn_token";
+
 export const define = createDefine<State>();
