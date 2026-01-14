@@ -1,5 +1,3 @@
-@ -1,58 +0,0 @@
-
 # yourturn-template
 
 This is a template for implementing an online turn-based game web app using a
@@ -19,8 +17,8 @@ Deno Standard Library when necessary. `@std/random` is particularly useful for
 games.
 
 The UI is built using Preact views. These views live in the `components`
-directory. The root views are `PlayerView` and `ObserverView` in
-`gameviews.tsx`, and `LobbyView` in `lobbyviews.tsx`.
+directory. The root views are `GameView` in `gameviews.tsx`, and `LobbyView` in
+`lobbyviews.tsx`.
 
 After creating a game, makes sure to lint/typecheck it and fix errors.
 
@@ -31,9 +29,8 @@ library should be used. Examples of both the game logic and the views live in
 the `examples` directory. Read the examples you think are most appropriate to
 the game you're building, and examples closely.
 
-- `examples/rockpaperscissors` - basic actions, simultaneous gameplay, multiple
-  rounds, configuration
 - `examples/gomoku` - board rendering, timer, configuration
+- `examples/uno` - larger state, turn flow, richer UI
 
 ## Commands
 

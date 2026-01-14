@@ -31,7 +31,11 @@ function EmojiButton(
   );
 }
 
-export function PlayerView(
+type GameViewProps<Move, PlayerState, ObserverState> =
+  | PlayerViewProps<Move, PlayerState>
+  | ObserveViewProps<ObserverState>;
+
+function PlayerView(
   { playerState, perform, playerId, players }: PlayerViewProps<
     Move,
     PlayerState
@@ -102,7 +106,7 @@ export function PlayerView(
   );
 }
 
-export function ObserverView(
+function ObserverView(
   { observerState, players }: ObserveViewProps<ObserverState>,
 ) {
   const playerOneName = players[0]!.username;
@@ -145,4 +149,14 @@ export function ObserverView(
       )}
     </div>
   );
+}
+
+export function GameView(
+  props: GameViewProps<Move, PlayerState, ObserverState>,
+) {
+  if (props.mode === "player") {
+    return <PlayerView {...props} />;
+  }
+
+  return <ObserverView {...props} />;
 }

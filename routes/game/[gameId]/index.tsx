@@ -1,6 +1,5 @@
 import { getGameServer } from "../../../gameserver.ts";
-import ObserveIsland from "../../../islands/ObserveIsland.tsx";
-import PlayIsland from "../../../islands/PlayIsland.tsx";
+import GameIsland from "../../../islands/GameIsland.tsx";
 import { checkAuth, define } from "../../../utils.ts";
 
 export default define.page(async (ctx) => {
@@ -8,22 +7,12 @@ export default define.page(async (ctx) => {
   const token = checkAuth(ctx.req.headers);
   const initialGameProps = await getGameServer().getInitialGameProps(
     gameId,
-    token ?? null,
+    token,
   );
-  switch (initialGameProps.mode) {
-    case "player":
-      return (
-        <PlayIsland
-          gameId={gameId}
-          initialPlayerProps={initialGameProps}
-        />
-      );
-    case "observer":
-      return (
-        <ObserveIsland
-          gameId={gameId}
-          initialObserverProps={initialGameProps}
-        />
-      );
-  }
+  return (
+    <GameIsland
+      gameId={gameId}
+      initialGameProps={initialGameProps}
+    />
+  );
 });
