@@ -38,7 +38,7 @@ export function LobbyView(
 
   return (
     <div class="p-4">
-      <h1 class="text-xl pt-4">Rock Paper Scissors</h1>
+      <h1 class="text-xl pt-4">Tic-tac-toe</h1>
 
       <div class="pt-4 flex items-center gap-2">
         <span class="font-semibold">Username:</span>
