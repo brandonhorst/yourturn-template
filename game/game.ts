@@ -4,12 +4,13 @@ import type {
   GameState,
   Mark,
   Move,
+  Outcome,
   PlayerState,
   PublicState,
 } from "./types.ts";
 import { produce } from "immer";
 
-function otherPlayerId(playerId: number): 0 | 1 {
+function otherPlayerId(playerId: 0 | 1): 0 | 1 {
   return (1 + playerId) % 2 as 0 | 1;
 }
 
@@ -28,27 +29,13 @@ const winningLines = [
   [2, 4, 6],
 ];
 
-function getOutcome(board: (Mark | null)[]): 0 | 1 | "tie" | null {
-  for (const [a, b, c] of winningLines) {
-    const mark = board[a];
-    if (mark && mark === board[b] && mark === board[c]) {
-      return mark === "x" ? 0 : 1;
-    }
-  }
-
-  if (board.every((cell) => cell !== null)) {
-    return "tie";
-  }
-
-  return null;
-}
-
 export const game: Game<
   Config,
   GameState,
   Move,
   PlayerState,
-  PublicState
+  PublicState,
+  Outcome
 > = {
   modes: {
     queue: {
@@ -59,7 +46,7 @@ export const game: Game<
   },
 
   setup(): Readonly<GameState> {
-    return { board: Array(9).fill(null), nextPlayer: 0, winner: null };
+    return { board: Array(9).fill(null), nextPlayer: 0 };
   },
 
   isValidMove(s, { move, playerId }): boolean {
@@ -68,12 +55,7 @@ export const game: Game<
       return false;
     }
 
-    if (s.winner !== null) {
-      return false;
-    }
-
-    const pid = playerId as 0 | 1;
-    if (pid !== s.nextPlayer) {
+    if (playerId !== s.nextPlayer) {
       return false;
     }
 
@@ -84,31 +66,33 @@ export const game: Game<
     const pid = playerId as 0 | 1;
     return produce(s, (s) => {
       s.board[move.index] = markForPlayer(pid);
-      const outcome = getOutcome(s.board);
-      s.winner = outcome;
-      if (outcome === null) {
-        s.nextPlayer = otherPlayerId(pid);
-      }
+      s.nextPlayer = otherPlayerId(pid);
     });
   },
 
-  playerState(s): Readonly<PlayerState> {
-    return {
-      board: s.board,
-      nextPlayer: s.nextPlayer,
-      winner: s.winner,
-    };
+  playerState(): Readonly<PlayerState> {
+    return undefined;
   },
 
   publicState(s): Readonly<PublicState> {
     return {
       board: s.board,
       nextPlayer: s.nextPlayer,
-      winner: s.winner,
     };
   },
 
-  isComplete(s): boolean {
-    return s.winner !== null;
+  outcome(s): Outcome | undefined {
+    for (const [a, b, c] of winningLines) {
+      const mark = s.board[a];
+      if (mark && mark === s.board[b] && mark === s.board[c]) {
+        return mark === "x" ? 0 : 1;
+      }
+    }
+
+    if (s.board.every((cell) => cell !== null)) {
+      return "tie";
+    }
+
+    return undefined;
   },
 };

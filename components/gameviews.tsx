@@ -1,6 +1,12 @@
 import { Circle, X } from "lucide-preact";
 import { GameViewProps } from "yourturn/types";
-import type { Mark, Move, PlayerState, PublicState } from "@/game/types.ts";
+import type {
+  Mark,
+  Move,
+  Outcome,
+  PlayerState,
+  PublicState,
+} from "@/game/types.ts";
 
 function markIcon(mark: Mark) {
   return mark === "x" ? <X class="w-8 h-8" /> : <Circle class="w-8 h-8" />;
@@ -47,10 +53,10 @@ function Board(
 }
 
 function PlayerList(
-  { players, nextPlayer, winner }: {
+  { players, nextPlayer, outcome }: {
     players: { username: string }[];
     nextPlayer: 0 | 1;
-    winner: 0 | 1 | "tie" | null;
+    outcome: Outcome | undefined;
   },
 ) {
   return (
@@ -59,8 +65,8 @@ function PlayerList(
       <div class="list bg-base-100 rounded-box border mt-3">
         {players.map((player, index) => {
           const playerId = index as 0 | 1;
-          const isTurn = winner === null && nextPlayer === playerId;
-          const isWinner = winner === playerId;
+          const isTurn = outcome === undefined && nextPlayer === playerId;
+          const isWinner = outcome === playerId;
           return (
             <div class="list-row">
               <div class="list-col-grow flex items-center gap-3">
@@ -80,7 +86,7 @@ function PlayerList(
 }
 
 export function GameView(
-  props: GameViewProps<Move, PlayerState, PublicState>,
+  props: GameViewProps<Move, PlayerState, PublicState, Outcome>,
 ) {
   const handlePlay = props.perform == null
     ? undefined
@@ -101,7 +107,7 @@ export function GameView(
       <PlayerList
         players={props.players}
         nextPlayer={props.publicState.nextPlayer}
-        winner={props.publicState.winner}
+        outcome={props.outcome}
       />
     </div>
   );

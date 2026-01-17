@@ -1,15 +1,15 @@
 import { useGameSocket } from "yourturn/hooks";
 import type { GameProps } from "yourturn/types";
 import { GameView } from "@/components/gameviews.tsx";
-import type { Move, PlayerState, PublicState } from "@/game/types.ts";
+import type { Move, Outcome, PlayerState, PublicState } from "@/game/types.ts";
 
 export default function GameIsland(
   props: {
     gameId: string;
-    initialGameProps: GameProps<PlayerState, PublicState>;
+    initialGameProps: GameProps<PlayerState, PublicState, Outcome>;
   },
 ) {
-  const gameProps = useGameSocket<Move, PlayerState, PublicState>(
+  const gameProps = useGameSocket<Move, PlayerState, PublicState, Outcome>(
     `/game/${props.gameId}/socket`,
     props.initialGameProps,
   );
