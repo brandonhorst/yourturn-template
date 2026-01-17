@@ -62,40 +62,25 @@ export const game: Game<
     return { board: Array(9).fill(null), nextPlayer: 0, winner: null };
   },
 
-  isValidMove(_s, {
-    config: _config,
-    move,
-    playerId,
-    timestamp: _timestamp,
-    players: _players,
-  }): boolean {
+  isValidMove(s, { move, playerId }): boolean {
     const { index } = move;
     if (!Number.isInteger(index) || index < 0 || index > 8) {
       return false;
     }
 
-    if (_s.winner !== null) {
+    if (s.winner !== null) {
       return false;
     }
 
     const pid = playerId as 0 | 1;
-    if (pid !== _s.nextPlayer) {
+    if (pid !== s.nextPlayer) {
       return false;
     }
 
-    return _s.board[index] === null;
+    return s.board[index] === null;
   },
 
-  processMove(
-    s,
-    {
-      move,
-      playerId: _playerId,
-      config: _config,
-      timestamp: _timestamp,
-      players: _players,
-    },
-  ): Readonly<GameState> {
+  processMove(s, { move, playerId }): Readonly<GameState> {
     const pid = playerId as 0 | 1;
     return produce(s, (s) => {
       s.board[move.index] = markForPlayer(pid);
@@ -107,16 +92,7 @@ export const game: Game<
     });
   },
 
-  playerState(
-    s,
-    {
-      playerId: _playerId,
-      isComplete: _isComplete,
-      config: _config,
-      timestamp: _timestamp,
-      players: _players,
-    },
-  ): Readonly<PlayerState> {
+  playerState(s): Readonly<PlayerState> {
     return {
       board: s.board,
       nextPlayer: s.nextPlayer,
@@ -124,15 +100,7 @@ export const game: Game<
     };
   },
 
-  observerState(
-    s,
-    {
-      config: _config,
-      isComplete: _isComplete,
-      players: _players,
-      timestamp: _timestamp,
-    },
-  ): Readonly<ObserverState> {
+  observerState(s): Readonly<ObserverState> {
     return {
       board: s.board,
       nextPlayer: s.nextPlayer,
@@ -140,7 +108,7 @@ export const game: Game<
     };
   },
 
-  isComplete(s, { config: _config, players: _players }): boolean {
+  isComplete(s): boolean {
     return s.winner !== null;
   },
 };
