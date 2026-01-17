@@ -1,29 +1,46 @@
 import { Circle, X } from "lucide-preact";
 import { GameViewProps } from "yourturn/types";
-import type { Mark, Move, ObserverState, PlayerState } from "@/game/types.ts";
+import type { Mark, Move, PlayerState, PublicState } from "@/game/types.ts";
 
 function markIcon(mark: Mark) {
   return mark === "x" ? <X class="w-8 h-8" /> : <Circle class="w-8 h-8" />;
 }
 
+function Tile(
+  { cell, onPlay }: {
+    cell: Mark | null;
+    onPlay?: () => void;
+  },
+) {
+  const isDisabled = !onPlay || cell !== null;
+
+  return (
+    <button
+      type="button"
+      class={`btn btn-outline btn-square w-20 h-20${
+        isDisabled ? " btn-disabled" : ""
+      }`}
+      onClick={() => onPlay?.()}
+      disabled={isDisabled}
+    >
+      {cell ? markIcon(cell) : null}
+    </button>
+  );
+}
+
 function Board(
-  { board, canPlay, onPlay }: {
+  { board, onPlay }: {
     board: (Mark | null)[];
-    canPlay: boolean;
-    onPlay: (index: number) => void;
+    onPlay?: (index: number) => void;
   },
 ) {
   return (
     <div class="grid grid-cols-3 gap-2">
       {board.map((cell, index) => (
-        <button
-          type="button"
-          class="btn btn-outline btn-square w-20 h-20"
-          onClick={() => onPlay(index)}
-          disabled={!canPlay || cell !== null}
-        >
-          {cell ? markIcon(cell) : null}
-        </button>
+        <Tile
+          cell={cell}
+          onPlay={onPlay ? () => onPlay(index) : undefined}
+        />
       ))}
     </div>
   );
@@ -63,10 +80,11 @@ function PlayerList(
 }
 
 export function GameView(
-  props: GameViewProps<Move, PlayerState, ObserverState>,
+  props: GameViewProps<Move, PlayerState, PublicState>,
 ) {
-  const canPlay = props.mode === "player" && props.perform !== undefined &&
-    props.playerId === state.nextPlayer;
+  const handlePlay = props.perform == null
+    ? undefined
+    : (index: number) => props.perform({ index });
 
   return (
     <div class="p-4">
@@ -75,16 +93,15 @@ export function GameView(
 
       <div class="mt-6 flex justify-center">
         <Board
-          board={props.state.board}
-          canPlay={canPlay}
-          onPlay={(index) => props.perform?.({ index })}
+          board={props.publicState.board}
+          onPlay={handlePlay}
         />
       </div>
 
       <PlayerList
         players={props.players}
-        nextPlayer={props.state.nextPlayer}
-        winner={props.state.winner}
+        nextPlayer={props.publicState.nextPlayer}
+        winner={props.publicState.winner}
       />
     </div>
   );

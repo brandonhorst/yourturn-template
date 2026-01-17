@@ -4,12 +4,12 @@ import type {
   Config,
   GameState,
   Move,
-  ObserverState,
   PlayerState,
+  PublicState,
 } from "./game/types.ts";
 
 let gameServer:
-  | Server<Config, GameState, Move, PlayerState, ObserverState>
+  | Server<Config, GameState, Move, PlayerState, PublicState>
   | undefined;
 
 export function getGameServer(): Server<
@@ -17,7 +17,7 @@ export function getGameServer(): Server<
   GameState,
   Move,
   PlayerState,
-  ObserverState
+  PublicState
 > {
   if (gameServer == null) {
     throw new Error("GameServer is not initialized");

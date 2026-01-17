@@ -4,8 +4,8 @@ import type {
   GameState,
   Mark,
   Move,
-  ObserverState,
   PlayerState,
+  PublicState,
 } from "./types.ts";
 import { produce } from "immer";
 
@@ -48,7 +48,7 @@ export const game: Game<
   GameState,
   Move,
   PlayerState,
-  ObserverState
+  PublicState
 > = {
   modes: {
     queue: {
@@ -100,7 +100,7 @@ export const game: Game<
     };
   },
 
-  observerState(s): Readonly<ObserverState> {
+  publicState(s): Readonly<PublicState> {
     return {
       board: s.board,
       nextPlayer: s.nextPlayer,

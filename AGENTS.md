@@ -22,16 +22,6 @@ directory. The root views are `GameView` in `gameviews.tsx`, and `LobbyView` in
 
 After creating a game, makes sure to lint/typecheck it and fix errors.
 
-## Examples
-
-Important: When building a game, use the provided examples to understand how the
-library should be used. Examples of both the game logic and the views live in
-the `examples` directory. Read the examples you think are most appropriate to
-the game you're building, and examples closely.
-
-- `examples/gomoku` - board rendering, timer, configuration
-- `examples/uno` - larger state, turn flow, richer UI
-
 ## Commands
 
 - Lint/Typecheck: `deno lint`

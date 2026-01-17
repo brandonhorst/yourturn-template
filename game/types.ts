@@ -14,7 +14,7 @@ export type PlayerState = {
   winner: 0 | 1 | "tie" | null;
 };
 
-export type ObserverState = {
+export type PublicState = {
   board: (Mark | null)[];
   nextPlayer: 0 | 1;
   winner: 0 | 1 | "tie" | null;
