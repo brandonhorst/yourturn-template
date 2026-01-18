@@ -18,14 +18,12 @@ function Tile(
     onPlay?: () => void;
   },
 ) {
-  const isDisabled = !onPlay || cell !== null;
+  const isDisabled = onPlay == null || cell !== null;
 
   return (
     <button
       type="button"
-      class={`btn btn-outline btn-square w-20 h-20${
-        isDisabled ? " btn-disabled" : ""
-      }`}
+      class="btn w-20 h-20"
       onClick={() => onPlay?.()}
       disabled={isDisabled}
     >
@@ -60,27 +58,30 @@ function PlayerList(
   },
 ) {
   return (
-    <div class="mt-8">
-      <h3 class="text-lg font-semibold">Player List</h3>
-      <div class="list bg-base-100 rounded-box border mt-3">
-        {players.map((player, index) => {
-          const playerId = index as 0 | 1;
-          const isTurn = outcome === undefined && nextPlayer === playerId;
-          const isWinner = outcome === playerId;
-          return (
-            <div class="list-row">
-              <div class="list-col-grow flex items-center gap-3">
-                {markIcon(playerId === 0 ? "x" : "o")}
-                <span class="font-medium">{player.username}</span>
-              </div>
-              <div class="flex items-center gap-2">
-                {isWinner && <span class="badge badge-success">Winner</span>}
-                {isTurn && <span class="badge badge-primary">Turn</span>}
-              </div>
-            </div>
-          );
-        })}
-      </div>
+    <div class="list bg-base-100 border border-base-100 rounded-box mt-3">
+      {players.map((player, index) => {
+        const playerId = index as 0 | 1;
+        const isTurn = outcome === undefined && nextPlayer === playerId;
+        const isWinner = outcome === playerId;
+        return (
+          <div class="list-row items-center">
+            {markIcon(playerId === 0 ? "x" : "o")}
+            <div>{player.username}</div>
+            {isWinner && <span class="badge badge-success">Winner</span>}
+            {isTurn && <span class="badge badge-primary">Turn</span>}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function Header({ username }: { username: string | undefined }) {
+  return (
+    <div class="flex flex-col gap-1">
+      <h2 class="text-2xl font-bold">Tic-tac-toe</h2>
+      <a href="/lobby" class="link">Back to Lobby</a>
+      <div>{username}</div>
     </div>
   );
 }
@@ -92,10 +93,14 @@ export function GameView(
     ? undefined
     : (index: number) => props.perform({ index });
 
+  let username: string | undefined;
+  if (props.playerId != null) {
+    username = props.players[props.playerId].username;
+  }
+
   return (
-    <div class="p-4">
-      <h2 class="text-2xl font-bold">Tic-tac-toe</h2>
-      <a href="/lobby" class="link">Back to Lobby</a>
+    <div class="w-xl flex flex-col justify-center mx-auto">
+      <Header username={username} />
 
       <div class="mt-6 flex justify-center">
         <Board
