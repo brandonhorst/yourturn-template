@@ -1,140 +1,118 @@
-import { ObserveViewProps, PlayerViewProps } from "yourturn/types";
+import { Circle, X } from "lucide-preact";
+import { GameViewProps } from "yourturn/types";
 import type {
+  Mark,
   Move,
-  ObserverState,
+  Outcome,
   PlayerState,
-  RPSAction,
+  PublicState,
 } from "@/game/types.ts";
 
-function getEmoji(action: RPSAction) {
-  switch (action) {
-    case "rock":
-      return "✊";
-    case "paper":
-      return "✋";
-    case "scissors":
-      return "✌️";
-  }
+function markIcon(mark: Mark) {
+  return mark === "x" ? <X class="w-8 h-8" /> : <Circle class="w-8 h-8" />;
 }
 
-function EmojiButton(
-  { action, onClick }: { action: RPSAction; onClick: () => void },
+function Tile(
+  { cell, onPlay }: {
+    cell: Mark | null;
+    onPlay?: () => void;
+  },
 ) {
+  const isDisabled = onPlay == null || cell !== null;
+
   return (
     <button
       type="button"
-      onClick={onClick}
-      class="btn btn-primary"
+      class="btn w-20 h-20"
+      onClick={() => onPlay?.()}
+      disabled={isDisabled}
     >
-      {getEmoji(action)}
+      {cell ? markIcon(cell) : null}
     </button>
   );
 }
 
-export function PlayerView(
-  { playerState, perform }: PlayerViewProps<Move, PlayerState>,
+function Board(
+  { board, onPlay }: {
+    board: (Mark | null)[];
+    onPlay?: (index: number) => void;
+  },
 ) {
   return (
-    <div class="p-4">
-      <h2 class="text-2xl font-bold">Rock Paper Scissors</h2>
-      <a href="/lobby" class="link">Back to Lobby</a>
-
-      {playerState.state === "active" && perform && (
-        <div class="mt-4">
-          <p>Choose your move:</p>
-          <div class="flex gap-2 mt-2">
-            <EmojiButton
-              action="rock"
-              onClick={() => perform("rock")}
-            />
-            <EmojiButton action="paper" onClick={() => perform("paper")} />
-            <EmojiButton
-              action="scissors"
-              onClick={() => perform("scissors")}
-            />
-          </div>
-        </div>
-      )}
-
-      {playerState.state === "played" && (
-        <div class="mt-4">
-          <p>
-            You chose: {getEmoji(playerState.ownAction)}
-          </p>
-          <p>Waiting for opponent...</p>
-        </div>
-      )}
-
-      {playerState.state === "complete" && (
-        <div class="mt-4">
-          <div class="flex gap-4">
-            <div>
-              <div>{getEmoji(playerState.ownAction)}</div>
-              <div>You</div>
-            </div>
-            <div>vs</div>
-            <div>
-              <div>{getEmoji(playerState.oppositeAction)}</div>
-              <div>Opponent</div>
-            </div>
-          </div>
-
-          <div class="mt-4">
-            {playerState.result === "win" && (
-              <span class="text-success">You Win! 🎉</span>
-            )}
-            {playerState.result === "lose" && (
-              <span class="text-error">You Lose 😔</span>
-            )}
-            {playerState.result === "tie" && (
-              <span class="text-warning">It's a Tie! 🤝</span>
-            )}
-          </div>
-        </div>
-      )}
+    <div class="flex justify-center">
+      <div class="grid grid-cols-3 gap-2 w-60 h-60 justify-around">
+        {board.map((cell, index) => (
+          <Tile
+            cell={cell}
+            onPlay={onPlay ? () => onPlay(index) : undefined}
+          />
+        ))}
+      </div>
     </div>
   );
 }
 
-export function ObserverView(
-  { observerState }: ObserveViewProps<ObserverState>,
+function PlayerList(
+  { players, nextPlayer, outcome }: {
+    players: { username: string }[];
+    nextPlayer: 0 | 1;
+    outcome: Outcome | undefined;
+  },
 ) {
   return (
-    <div class="p-4">
-      <h2 class="text-2xl font-bold">Rock Paper Scissors</h2>
+    <div class="list">
+      {players.map((player, i) => {
+        const isTurn = outcome === undefined && nextPlayer === i;
+        const isWinner = outcome === i;
+        return (
+          <div class="list-row items-center">
+            {markIcon(i === 0 ? "x" : "o")}
+            <div>{player.username}</div>
+            {isWinner && <span class="badge badge-success">Winner</span>}
+            {isTurn && <span class="badge badge-primary">Turn</span>}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function Header({ username }: { username: string | undefined }) {
+  return (
+    <div class="flex flex-col gap-1">
+      <h2 class="text-2xl font-bold">Tic-tac-toe</h2>
       <a href="/lobby" class="link">Back to Lobby</a>
+      <div>{username}</div>
+    </div>
+  );
+}
 
-      {observerState.state === "waiting" && (
-        <p class="mt-4">Waiting for players to choose...</p>
-      )}
+export function GameView(
+  props: GameViewProps<Move, PlayerState, PublicState, Outcome>,
+) {
+  const handlePlay = props.perform == null
+    ? undefined
+    : (index: number) => props.perform({ index });
 
-      {observerState.state === "complete" && (
-        <div class="mt-4">
-          <div class="flex gap-4">
-            <div>
-              <div>{getEmoji(observerState.actions[0])}</div>
-              <div>Player 1</div>
-            </div>
-            <div>vs</div>
-            <div>
-              <div>{getEmoji(observerState.actions[1])}</div>
-              <div>Player 2</div>
-            </div>
-          </div>
+  let username: string | undefined;
+  if (props.playerId != null) {
+    username = props.players[props.playerId].username;
+  }
 
-          <div class="mt-4">
-            {observerState.winner === 0 && (
-              <span class="text-success">Player 1 Wins! 🎉</span>
-            )}
-            {observerState.winner === 1 && (
-              <span class="text-success">Player 2 Wins! 🎉</span>
-            )}
-            {observerState.winner === "tie" && (
-              <span class="text-warning">It's a Tie! 🤝</span>
-            )}
-          </div>
-        </div>
-      )}
+  return (
+    <div class="w-xl flex flex-col gap-4 mx-auto">
+      <Header username={username} />
+
+      <Board
+        board={props.publicState.board}
+        onPlay={handlePlay}
+      />
+
+      <PlayerList
+        players={props.players}
+        nextPlayer={props.publicState.nextPlayer}
+        outcome={props.outcome}
+      />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+/// <reference lib="deno.unstable" />
+
 import { App, staticFiles } from "fresh";
 import { define, type State } from "./utils.ts";
 import { initializeGameServer } from "./gameserver.ts";

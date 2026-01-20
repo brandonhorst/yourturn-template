@@ -1,17 +1,17 @@
 import { useLobbySocket } from "yourturn/hooks";
 import { LobbyView } from "@/components/lobbyviews.tsx";
-import { ActiveGame } from "yourturn/types";
+import { LobbyProps } from "yourturn/types";
 
-function navigateToGame(gameId: string, sessionId: string) {
-  globalThis.location.href = `/play/${gameId}/${sessionId}`;
+function navigateToGame(gameId: string) {
+  globalThis.location.href = `/game/${gameId}`;
 }
 
 export default function LobbyIsland(
-  props: { initialActiveGames: ActiveGame[] },
+  props: { initialLobbyProps: LobbyProps },
 ) {
   const lobbyProps = useLobbySocket({
     socketUrl: "/lobby/socket",
-    initialActiveGames: props.initialActiveGames,
+    initialLobbyProps: props.initialLobbyProps,
     navigate: navigateToGame,
   });
 

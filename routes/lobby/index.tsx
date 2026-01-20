@@ -1,10 +1,22 @@
 import LobbyIsland from "../../islands/LobbyIsland.tsx";
 import { getGameServer } from "../../gameserver.ts";
-import { define } from "../../utils.ts";
+import { checkAuth, define, setAuth } from "../../utils.ts";
+import type { LobbyProps } from "yourturn/types";
 
-export default define.page(async function Home() {
-  const initialActiveGames = await getGameServer()
-    .getInitialActiveGames();
+export const handler = define.handlers({
+  async GET(ctx) {
+    const headers = new Headers();
+    const providedToken = checkAuth(ctx.req.headers);
+    const { props, token } = await getGameServer()
+      .getInitialLobbyProps(providedToken);
+    setAuth(headers, token);
 
-  return <LobbyIsland initialActiveGames={initialActiveGames} />;
+    return { data: props, headers };
+  },
 });
+
+export default define.page<typeof handler>(
+  (props: { data: LobbyProps }) => {
+    return <LobbyIsland initialLobbyProps={props.data} />;
+  },
+);
