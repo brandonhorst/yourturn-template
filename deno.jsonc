@@ -28,11 +28,11 @@
     "vite": "npm:vite@^7.3.0",
     "tailwindcss": "npm:tailwindcss@^4.1.18",
     "@tailwindcss/vite": "npm:@tailwindcss/vite@^4.1.18",
-    // "yourturn/": "jsr:/@brandonhorst/yourturn@^0.12.1/",
+    "yourturn/": "jsr:/@brandonhorst/yourturn@^0.13.0/",
     // Uncomment for development with a local `yourturn`
-    "yourturn/hooks": "../yourturn/hooks.ts",
-    "yourturn/server": "../yourturn/server.ts",
-    "yourturn/types": "../yourturn/types.ts",
+    // "yourturn/hooks": "../yourturn/hooks.ts",
+    // "yourturn/server": "../yourturn/server.ts",
+    // "yourturn/types": "../yourturn/types.ts",
     "immer": "npm:immer@^11.1.0"
   },
   "compilerOptions": {
