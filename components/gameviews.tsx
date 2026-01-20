@@ -39,13 +39,15 @@ function Board(
   },
 ) {
   return (
-    <div class="grid grid-cols-3 gap-2">
-      {board.map((cell, index) => (
-        <Tile
-          cell={cell}
-          onPlay={onPlay ? () => onPlay(index) : undefined}
-        />
-      ))}
+    <div class="flex justify-center">
+      <div class="grid grid-cols-3 gap-2 w-60 h-60 justify-around">
+        {board.map((cell, index) => (
+          <Tile
+            cell={cell}
+            onPlay={onPlay ? () => onPlay(index) : undefined}
+          />
+        ))}
+      </div>
     </div>
   );
 }
@@ -58,14 +60,13 @@ function PlayerList(
   },
 ) {
   return (
-    <div class="list bg-base-100 border border-base-100 rounded-box mt-3">
-      {players.map((player, index) => {
-        const playerId = index as 0 | 1;
-        const isTurn = outcome === undefined && nextPlayer === playerId;
-        const isWinner = outcome === playerId;
+    <div class="list">
+      {players.map((player, i) => {
+        const isTurn = outcome === undefined && nextPlayer === i;
+        const isWinner = outcome === i;
         return (
           <div class="list-row items-center">
-            {markIcon(playerId === 0 ? "x" : "o")}
+            {markIcon(i === 0 ? "x" : "o")}
             <div>{player.username}</div>
             {isWinner && <span class="badge badge-success">Winner</span>}
             {isTurn && <span class="badge badge-primary">Turn</span>}
@@ -99,15 +100,13 @@ export function GameView(
   }
 
   return (
-    <div class="w-xl flex flex-col justify-center mx-auto">
+    <div class="w-xl flex flex-col gap-4 mx-auto">
       <Header username={username} />
 
-      <div class="mt-6 flex justify-center">
-        <Board
-          board={props.publicState.board}
-          onPlay={handlePlay}
-        />
-      </div>
+      <Board
+        board={props.publicState.board}
+        onPlay={handlePlay}
+      />
 
       <PlayerList
         players={props.players}
