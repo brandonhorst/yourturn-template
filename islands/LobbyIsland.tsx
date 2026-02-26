@@ -56,6 +56,7 @@ export default function LobbyIsland(
   const activePublicUsers = useActivePublicUsersChannel({
     socket,
     initialActivePublicUsersProps: props.initialActivePublicUsersProps,
+    starredUserIds: accountUserProfile.starredUserIds,
   });
   const availablePublicRooms = useAvailablePublicRoomsChannel({
     socket,

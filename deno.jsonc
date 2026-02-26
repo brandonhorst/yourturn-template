@@ -13,6 +13,7 @@
   },
   "lint": { "rules": { "tags": ["fresh", "recommended"] } },
   "exclude": ["**/_fresh/*"],
+  // For local development, DO NOT SUBMIT
   "links": [
     "../yourturn"
   ],

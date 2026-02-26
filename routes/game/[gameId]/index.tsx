@@ -1,12 +1,13 @@
 import { getGameServer } from "../../../gameserver.ts";
 import GameIsland from "../../../islands/GameIsland.tsx";
 import { checkAuth, define, setAuth } from "../../../utils.ts";
-import type { MatchViewData } from "yourturn/types";
+import type { ChatThreadViewData, MatchViewData } from "yourturn/types";
 import type { TicTacToeTypes } from "@/game/types.ts";
 
 type GamePageData = {
   gameId: string;
   initialMatchProps: MatchViewData<TicTacToeTypes>;
+  initialChatThreadProps: ChatThreadViewData<TicTacToeTypes>;
 };
 
 export const handler = define.handlers({
@@ -19,6 +20,10 @@ export const handler = define.handlers({
       gameServer.getUserMatchmakingViewData(userId),
       gameServer.getMatchViewData(gameId, userId),
     ]);
+    const initialChatThreadProps = await gameServer.getChatThreadMessages(
+      initialMatchProps.chatThreadId,
+      50,
+    );
 
     const headers = new Headers();
     setAuth(headers, token);
@@ -27,6 +32,7 @@ export const handler = define.handlers({
       data: {
         gameId,
         initialMatchProps,
+        initialChatThreadProps,
       } satisfies GamePageData,
       headers,
     };
@@ -38,6 +44,7 @@ export default define.page<typeof handler>((props) => {
     <GameIsland
       gameId={props.data.gameId}
       initialMatchProps={props.data.initialMatchProps}
+      initialChatThreadProps={props.data.initialChatThreadProps}
     />
   );
 });
