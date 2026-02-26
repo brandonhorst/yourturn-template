@@ -1,12 +1,14 @@
-import { Game } from "yourturn/types";
+import { type GameDefinition } from "yourturn/types";
 import type {
   Config,
   GameState,
+  Loadout,
   Mark,
-  Move,
   Outcome,
   PlayerState,
   PublicState,
+  Rating,
+  TicTacToeTypes,
 } from "./types.ts";
 import { produce } from "immer";
 
@@ -29,23 +31,16 @@ const winningLines = [
   [2, 4, 6],
 ];
 
-export const game: Game<
-  Config,
-  GameState,
-  Move,
-  PlayerState,
-  PublicState,
-  Outcome
-> = {
-  modes: {
+export const game: GameDefinition<TicTacToeTypes> = {
+  queues: {
     queue: {
       numPlayers: 2,
-      matchmaking: "queue",
+      queueType: "unranked",
       config: undefined,
     },
   },
 
-  setup(): Readonly<GameState> {
+  setup(_o): Readonly<GameState> {
     return { board: Array(9).fill(null), nextPlayer: 0 };
   },
 
@@ -62,6 +57,14 @@ export const game: Game<
     return s.board[index] === null;
   },
 
+  isValidLoadout(loadout: Loadout, _config: Config): boolean {
+    return loadout === undefined;
+  },
+
+  isValidRoom(config: Config): boolean {
+    return config === undefined;
+  },
+
   processMove(s, { move, playerId }): Readonly<GameState> {
     const pid = playerId as 0 | 1;
     return produce(s, (s) => {
@@ -74,14 +77,14 @@ export const game: Game<
     return undefined;
   },
 
-  publicState(s): Readonly<PublicState> {
+  publicState(s, _o): Readonly<PublicState> {
     return {
       board: s.board,
       nextPlayer: s.nextPlayer,
     };
   },
 
-  outcome(s): Outcome | undefined {
+  outcome(s, _o): Outcome | undefined {
     for (const [a, b, c] of winningLines) {
       const mark = s.board[a];
       if (mark && mark === s.board[b] && mark === s.board[c]) {
@@ -94,5 +97,13 @@ export const game: Game<
     }
 
     return undefined;
+  },
+
+  initialRating(): Rating {
+    return 0;
+  },
+
+  processOutcome(_outcome: Outcome, currentRatings: Rating[]): Rating[] {
+    return currentRatings;
   },
 };

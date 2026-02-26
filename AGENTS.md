@@ -27,6 +27,7 @@ After creating a game, makes sure to lint/typecheck it and fix errors.
 - Lint/Typecheck: `deno lint`
 - Test: `deno test`
 - Format: `deno fmt`
+- Run dev server: `deno task dev`
 
 ## Project Structure
 
@@ -42,4 +43,4 @@ need to be touched. They govern the URL structure of the pages and WebSockets.
 If you do need to modify them in order to change the URL structure or something
 like that, you can access the documentation with one of these shell commands:
 `deno doc jsr:@brandonhorst/yourturn/server`,
-`deno doc jsr:@brandonhorst/yourturn/hooks`.
+`deno doc jsr:@brandonhorst/yourturn/client`.

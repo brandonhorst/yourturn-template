@@ -1,26 +1,11 @@
-import { initializeServer, type Server } from "yourturn/server";
+import { initializeServer } from "yourturn/server";
 import { game } from "@/game/game.ts";
-import type {
-  Config,
-  GameState,
-  Move,
-  Outcome,
-  PlayerState,
-  PublicState,
-} from "./game/types.ts";
+import type { Server } from "yourturn/types";
+import type { TicTacToeTypes } from "./game/types.ts";
 
-let gameServer:
-  | Server<Config, GameState, Move, PlayerState, PublicState, Outcome>
-  | undefined;
+let gameServer: Server<TicTacToeTypes> | undefined;
 
-export function getGameServer(): Server<
-  Config,
-  GameState,
-  Move,
-  PlayerState,
-  PublicState,
-  Outcome
-> {
+export function getGameServer(): Server<TicTacToeTypes> {
   if (gameServer == null) {
     throw new Error("GameServer is not initialized");
   }

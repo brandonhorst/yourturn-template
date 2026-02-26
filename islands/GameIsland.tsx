@@ -1,17 +1,19 @@
-import { useGameSocket } from "yourturn/hooks";
-import type { GameProps } from "yourturn/types";
+import { useMatchChannel, useSocket } from "yourturn/client";
+import type { MatchViewData } from "yourturn/types";
 import { GameView } from "@/components/gameviews.tsx";
-import type { Move, Outcome, PlayerState, PublicState } from "@/game/types.ts";
+import type { TicTacToeTypes } from "@/game/types.ts";
 
 export default function GameIsland(
   props: {
     gameId: string;
-    initialGameProps: GameProps<PlayerState, PublicState, Outcome>;
+    initialMatchProps: MatchViewData<TicTacToeTypes>;
   },
 ) {
-  const gameProps = useGameSocket<Move, PlayerState, PublicState, Outcome>(
-    `/game/${props.gameId}/socket`,
-    props.initialGameProps,
+  const socket = useSocket("/api/socket");
+  const gameProps = useMatchChannel(
+    socket,
+    props.gameId,
+    props.initialMatchProps,
   );
 
   return <GameView {...gameProps} />;

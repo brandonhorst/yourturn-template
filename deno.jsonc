@@ -13,6 +13,9 @@
   },
   "lint": { "rules": { "tags": ["fresh", "recommended"] } },
   "exclude": ["**/_fresh/*"],
+  "links": [
+    "../yourturn"
+  ],
   "imports": {
     "@/": "./",
     "@std/assert": "jsr:@std/assert@^1.0.19",
@@ -21,16 +24,16 @@
     "@std/http": "jsr:@std/http@^1.0.25",
     "daisyui": "npm:daisyui@^5.5.19",
     "fresh": "jsr:@fresh/core@^2.2.0",
-    "lucide-preact": "npm:lucide-preact@^0.562.0",
+    "lucide-preact": "npm:lucide-preact@^0.575.0",
     "preact": "npm:preact@^10.28.4",
     "@preact/signals": "npm:@preact/signals@^2.8.1",
     "@fresh/plugin-vite": "jsr:@fresh/plugin-vite@^1.0.8",
     "vite": "npm:vite@^7.3.1",
     "tailwindcss": "npm:tailwindcss@^4.2.1",
     "@tailwindcss/vite": "npm:@tailwindcss/vite@^4.2.1",
-    "yourturn/hooks": "../yourturn/hooks.ts",
-    "yourturn/server": "../yourturn/server.ts",
-    "yourturn/types": "../yourturn/types.ts",
+    "yourturn/client": "jsr:@brandonhorst/yourturn@0.13.0/client",
+    "yourturn/server": "jsr:@brandonhorst/yourturn@0.13.0/server",
+    "yourturn/types": "jsr:@brandonhorst/yourturn@0.13.0/types",
     "immer": "npm:immer@^11.1.4"
   },
   "compilerOptions": {
@@ -55,5 +58,6 @@
     ],
     "types": ["vite/client"]
   },
-  "unstable": ["kv"]
+  "unstable": ["kv"],
+  "lock": false
 }

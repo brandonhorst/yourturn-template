@@ -1,5 +1,12 @@
 import { ComponentChildren } from "preact";
-import { LobbyViewProps } from "yourturn/types";
+import type {
+  AccountUserProfileProps,
+  ActivePublicMatchesViewData,
+  ActiveUsersViewData,
+  AvailablePublicRoomsViewData,
+  UserMatchmakingProps,
+} from "yourturn/types";
+import type { TicTacToeTypes } from "@/game/types.ts";
 
 export default function Button(
   props: {
@@ -16,24 +23,36 @@ export default function Button(
 
 export function LobbyView(
   {
-    activeGames,
-    joinQueue,
-    isQueued,
-    leaveQueue,
-    updateUsername,
-    user,
-  }: LobbyViewProps,
+    accountUserProfile,
+    userMatchmaking,
+    activePublicMatches,
+    activePublicUsers,
+    availablePublicRooms,
+  }: {
+    accountUserProfile: AccountUserProfileProps<TicTacToeTypes>;
+    userMatchmaking: UserMatchmakingProps<TicTacToeTypes>;
+    activePublicMatches: ActivePublicMatchesViewData<TicTacToeTypes>;
+    activePublicUsers: ActiveUsersViewData<TicTacToeTypes>;
+    availablePublicRooms: AvailablePublicRoomsViewData<TicTacToeTypes>;
+  },
 ) {
-  const handleChangeUsername = () => {
-    const nextUsername = prompt("Enter a new username", user.username);
-    if (nextUsername == null) {
+  const queueId = "queue";
+  const isQueued = userMatchmaking.queueEntries.some((entry) =>
+    entry.queueId === queueId
+  );
+
+  const handleChangeDescription = () => {
+    const nextDescription = prompt(
+      "Enter a new description",
+      accountUserProfile.description,
+    );
+    if (nextDescription == null) {
       return;
     }
-    const trimmed = nextUsername.trim();
-    if (trimmed.length === 0 || trimmed === user.username) {
+    if (nextDescription === accountUserProfile.description) {
       return;
     }
-    updateUsername(trimmed);
+    accountUserProfile.update({ description: nextDescription });
   };
 
   return (
@@ -42,32 +61,104 @@ export function LobbyView(
 
       <div class="pt-4 flex items-center gap-2">
         <span class="font-semibold">Username:</span>
-        <span>{user.username}</span>
-        <Button onClick={handleChangeUsername}>Change</Button>
+        <span>{accountUserProfile.username}</span>
+      </div>
+
+      <div class="pt-2 flex items-center gap-2">
+        <span class="font-semibold">Description:</span>
+        <span>{accountUserProfile.description || <i>(empty)</i>}</span>
+        <Button onClick={handleChangeDescription}>Edit</Button>
       </div>
 
       <h2 class="text-lg pt-4">New Game</h2>
       {isQueued
-        ? <Button onClick={leaveQueue}>Leave Queue</Button>
-        : <Button onClick={() => joinQueue("queue")}>Join Queue</Button>}
+        ? (
+          <Button onClick={() => userMatchmaking.leaveQueue(queueId)}>
+            Leave Queue
+          </Button>
+        )
+        : (
+          <Button
+            onClick={() =>
+              userMatchmaking.joinQueue(queueId, { loadout: undefined })}
+          >
+            Join Queue
+          </Button>
+        )}
 
-      <h2 class="text-lg pt-4">Active Games</h2>
-      {activeGames.length === 0
-        ? <div class="italic">No Active Games</div>
+      <h2 class="text-lg pt-4">Public Rooms</h2>
+      <Button
+        onClick={() =>
+          userMatchmaking.createAndJoinRoom(
+            {
+              config: undefined,
+              numPlayers: 2,
+              private: false,
+            },
+            { loadout: undefined },
+          )}
+      >
+        Create Public Room
+      </Button>
+
+      {availablePublicRooms.allAvailableRooms.length === 0
+        ? <div class="italic pt-2">No Public Rooms</div>
+        : (
+          <ul class="list-disc list-inside pt-2">
+            {availablePublicRooms.allAvailableRooms.map((room) => (
+              <li key={room.roomId}>
+                {room.roomId} ({room.players.length}/{room.numPlayers})
+                <Button
+                  onClick={() =>
+                    userMatchmaking.joinRoom(room.roomId, {
+                      loadout: undefined,
+                    })}
+                >
+                  Join
+                </Button>
+              </li>
+            ))}
+          </ul>
+        )}
+
+      <h2 class="text-lg pt-4">Your Active Matches</h2>
+      {userMatchmaking.userActiveMatches.length === 0
+        ? <div class="italic">No Active Matches</div>
         : (
           <ul class="list-disc list-inside">
-            {activeGames.map(({ gameId }) => (
-              <li>
+            {userMatchmaking.userActiveMatches.map((match) => (
+              <li key={match.matchId}>
                 <a
                   class="cursor-pointer underline"
-                  href={`/game/${gameId}`}
+                  href={`/game/${match.matchId}`}
                 >
-                  {gameId}
+                  {match.matchId}
                 </a>
               </li>
             ))}
           </ul>
         )}
+
+      <h2 class="text-lg pt-4">All Active Matches</h2>
+      {activePublicMatches.allActiveMatches.length === 0
+        ? <div class="italic">No Active Matches</div>
+        : (
+          <ul class="list-disc list-inside">
+            {activePublicMatches.allActiveMatches.map((match) => (
+              <li key={match.matchId}>
+                <a
+                  class="cursor-pointer underline"
+                  href={`/game/${match.matchId}`}
+                >
+                  {match.matchId}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+
+      <h2 class="text-lg pt-4">Active Users</h2>
+      <div>{activePublicUsers.allActiveUsers.length}</div>
     </div>
   );
 }

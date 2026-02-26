@@ -39,7 +39,7 @@
     "npm:@mjackson/node-fetch-server@0.7": "0.7.0",
     "npm:@opentelemetry/api@^1.9.0": "1.9.0",
     "npm:@preact/signals@^2.2.1": "2.8.1_preact@10.28.4",
-    "npm:@preact/signals@^2.8.1": "2.8.1_preact@10.28.4",
+    "npm:@preact/signals@^2.5.0": "2.8.1_preact@10.28.4",
     "npm:@prefresh/vite@^2.4.8": "2.4.12_preact@10.28.4_vite@7.3.1__picomatch@4.0.3",
     "npm:@tailwindcss/vite@^4.2.1": "4.2.1_vite@7.3.1__picomatch@4.0.3",
     "npm:daisyui@^5.5.19": "5.5.19",
@@ -50,7 +50,6 @@
     "npm:preact-render-to-string@^6.6.3": "6.6.6_preact@10.28.4",
     "npm:preact@^10.27.0": "10.28.4",
     "npm:preact@^10.27.2": "10.28.4",
-    "npm:preact@^10.28.4": "10.28.4",
     "npm:tailwindcss@^4.2.1": "4.2.1",
     "npm:vite@^7.3.1": "7.3.1_picomatch@4.0.3"
   },
@@ -1308,12 +1307,12 @@
       "jsr:@std/http@^1.0.25",
       "jsr:@std/random@~0.1.5",
       "jsr:@std/ulid@1",
-      "npm:@preact/signals@^2.8.1",
+      "npm:@preact/signals@^2.5.0",
       "npm:@tailwindcss/vite@^4.2.1",
       "npm:daisyui@^5.5.19",
       "npm:immer@^11.1.4",
       "npm:lucide-preact@0.562",
-      "npm:preact@^10.28.4",
+      "npm:preact@^10.27.2",
       "npm:tailwindcss@^4.2.1",
       "npm:vite@^7.3.1"
     ]
